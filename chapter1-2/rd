@@ -1,0 +1,19 @@
+第一: 代码执行
+    将源代码解析成字节码,PVM执行字节码
+
+第二: 交付
+    1、java源代码，编译成字节码Clazz，交付Clazz
+    2、python源代码直接交付，编译发生在运行之前
+
+第三: Python的实现
+    1、default实现使用C语言编写，CPython: PVM
+    2、还有其他的实现，如JPython，将python源代码编译成Clazz
+
+第四: 优化工具
+    1、Psyco实施编译器，PVM增强工具，在程序运行时将部分字节码转化为真正的二进制机器码，可以有效的提高运行效率
+    2、Shedskin C++转换器...
+
+第五: 冻结二进制文件
+    将源代码编译成字节码，和PVM以及程序运行需要的所有支持文件打包。形成一个可执行的文件，如windows上的exe,linux上的可执行二进制文件
+    1、工具py2exe、PyInstaller
+
