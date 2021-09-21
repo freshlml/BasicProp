@@ -1,0 +1,62 @@
+第一: python交互命令行
+    1、在系统交互窗口(Cmd窗口,Shell窗口)输入python命令，python命令在bin目录下
+        C:\Users\DELL>python
+        Python 3.7.3 (v3.7.3:ef4ec6ed12, Mar 25 2019, 22:22:05) [MSC v.1916 64 bit (AMD64)] on win32
+        Type "help", "copyright", "credits" or "license" for more information.
+        >>>
+    2、输入python代码，按回车输入的代码立即被执行
+        >>> print('hello 中')       ##输入python代码
+        hello 中                    ##按回车，上述代码执行
+        >>> var = 1                 ##输入python代码，回车
+        >>> var                     ##输入python代码
+        1                           ##回车
+        >>>
+    3、输入多行语句
+        交互命令行中python代码只能一句一句执行，即一句先执行后一句才能执行
+        多行语句的场景则只适用于复合语句，复合语句的最后需要空行
+        >>> for x in '123':
+        ...   print(x)
+        ...
+        1
+        2
+        3
+        >>>
+
+第二: 模块(module)
+    1、通常basics.py文件，basics即可作为module
+    2、其他py文件可以import basics来读取basics这个module的内容
+    3、模块中的变量可叫做模块的属性，模块即一个命名空间
+    4、import basics
+       搜寻basics.py文件；编译成字节码；运行字节码
+    basics.py
+        vps = 'vps 中'
+    chapter1-3.py
+        import basics         ##导入basics模块
+        print(basics.vps)     ##读取basics模块的vps变量
+        basics.vps = '修改'    ##修改basics模块的vps变量，只会在chapter1-3这个命名空间修改，而不会修改basics源代码文件中的值，即不会影响其他对basics的使用
+
+        from basics import vps  ##从basics模块中将vps变量的值复制给此中的vps变量
+        print(vps)
+    5、import传递依赖问题
+            sys
+             | \
+        basics  \
+             |   \
+            chapter1-3
+
+        basics.py:
+            import sys
+            sys.path = 1
+        chapter1-3.py:               ##chapter1-3运行
+            import sys               ##import sys执行: 将在chapter1-3命名空间中加载并执行sys模块
+            import basics            ##import basics执行: 将在chapter1-3命名空间中加载并执行basics模块: 在执行basics模块时，1、import sys执行: 在chapter1-3命名空间由于sys模块已经被加载了，所有不会重复执行;2、sys.path=1执行，此处修改的将是chapter1-3命名空间中加载的sys模块
+            print(sys.path)          ##所以这里是1
+
+
+
+
+
+
+
+
+
