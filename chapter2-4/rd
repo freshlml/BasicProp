@@ -1,0 +1,62 @@
+第一: 内置基础类型
+    数字
+        整数<class 'int'>, python没有限制其大小; 十进制数:123654; 二进制数:0b11011; 八进制数:0o71011; 十六进制数:0xabc1209
+        浮点数<class 'float'>, 8个字节存储: 1位符号位，11位指数，52位有效数字，即双精度浮点型; f=1.09
+        decimal(存储精确，计算精确的浮点数) ===> Decimal类型
+        fraction(分数)
+        复数      ?
+
+    字符串
+        <class 'str'> '字符串'; "字符串"; b'a\xo'
+        s[index]按索引取值, s[i:j]按[i,j)取值, i默认值0, j默认值len(s), index/i/j可以取负数, 其意义为 len(s)+index/i/j, 不能按索引修改s[0]='3'将error
+        s1 + s2,返回<class 'str'> 合并的字符串; s1 * 8, 返回<class 'str'> s1重复8次的字符串    运算符重载...
+        字符串对象的不可变(类比): 一旦定义一个字符串，如s='字符串',则不能通过位置索引改变字符串，如s[0]='3'将error
+                            但变量s可以指向一个新的字符串,如s='另一个字符串',旧的'字符串'对象会被清理
+                            <class 'str'>类型定义了很多方法如，find,replace,split等
+                            注意的是replace等方法返回的是一个新的字符串对象
+        查看说明: dir(''), help(''.replace)
+        如何调出源码?
+
+    元组
+        元素任意类型; 有序; 不可修改; 是linked还是array??
+        <class 'tuple'>, (1, "2", [1, 2], ("3", 2)), 使用()定义元组
+        tp[index]按索引取值, tp[i:j]按[i, j)取值，i默认值0，j默认值len(tp), index/i/j可以取负数, 其意义为 len(tp)+index/i/j, index>len(lst): lst[len(lst)] or lst[1:len(lst)+100]
+        嵌套
+
+    列表
+        元素任意类型; 有序性; 可修改; 是linked还是array??
+        <class 'list'>, [1, '字符串', ['2', '子列表']], 使用[]定义列表
+        lst[index]按索引取值, lst[i:j]按[i, j)取值，i默认值0，j默认值len(lst), index/i/j可以取负数, 其意义为 len(lst)+index/i/j, index>len(lst): lst[len(lst)] or lst[1:len(lst)+100]
+        修改:lst[2].append('append')
+        嵌套; 二位数组m = [[1, 2, 3],
+                         [4, 5, 6],
+                         [7, 8, 9]]   m[0]-->[1,2,3], m[1][2]-->6
+        列表解析表达式: col = [per[1] for per in m]
+        type(lst) == list or isinstance(type(lst))
+
+    字典
+        key类型:hashable type,value任意类型; 无序性; 可修改
+        <class 'dict'>, {"key1": "value", "key2": ['list']} (使用{}定义字典)
+        d[key]根据key取值; 支持修改,d[key] = value: 覆盖或者插入
+        嵌套;
+        列表解析表达式
+
+    集合
+        元素类型:hashable type; 无序性; 可修改
+        <class 'set'>, {1, '2'}  (使用{}定义集合)
+        可通过add等方法修改
+
+    None
+        l = None
+        print(type(l))   //<class 'NoneType'>
+        lst = [None, None]
+        print(len(lst))   //2
+        即python版null
+    布尔
+        boolean常量: True,False
+        b = True
+        print(b)        //True
+        print(type(b))  //<class 'bool'>
+
+
+
