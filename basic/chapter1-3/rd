@@ -31,12 +31,12 @@
     basics.py
         vps = 'vps 中'
     chapter1-3.py
-        import basics         ##导入basics模块
-        print(basics.vps)     ##读取basics模块的vps变量
+        import basics         ##导入basics模块: 在chapter1-3命名空间中加载并执行basics模块
+        print(basics.vps)     ##读取vps变量: vps 中
         basics.vps = '修改'    ##修改basics模块的vps变量，只会在chapter1-3这个命名空间修改，而不会修改basics源代码文件中的值，即不会影响其他对basics的使用
 
         from basics import vps  ##从basics模块中将vps变量的值复制给此中的vps变量
-        print(vps)
+        print(vps)            ##是 '修改' 而不是 'vps 中'
     5、import传递依赖问题
             sys
              | \
