@@ -62,3 +62,32 @@
 
 
 
+第二: 对象引用
+python中没有基本类型，int也是一种类类型: <class 'int'>
+<class 'int'>、<class 'str'> 不可变
+a = 1           # a--->1  变量a指向  int对象(值为1)
+b = a           # b--->1  变量b指向  a指向的int对象
+a = a + 2       # a--->3  根据变量a取值+2得到3, 创建int对象保存3{python中int类型是不可变的，所以每次计算都会创建新的int对象}, 变量a指向int对象(值为3)
+
+print(a)  # 3
+print(b)  # 1
+
+
+java中的int是基本类型，不是引用的形式
+int a = 1;      # 线程栈中声明变量a，开辟int类型空间，存放1
+int b = a;      # 线程栈中声明变量b，开辟int类型空间，存放1
+a = a + 2;      # 根据变量a取值+2得到3，存入变量a的空间
+
+print(a)  # 3
+print(b)  # 1
+
+
+java中的相同机制
+String是类类型，并且是不可变的
+String a = "abc";   # 变量a指向 字符串对象("abc")
+String b = a;       # 变量b指向 a指向的字符串对象
+a = a + "--";       # 取变量a的值+"--"得到"abc--", 创建字符串对象("abc--"){字符串对象是不可变的，所有会创建新的字符串对象}, 变量a指向字符串对象("abc--")
+
+print(a);  # abc
+print(b);  # abc--
+
