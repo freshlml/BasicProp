@@ -16,6 +16,7 @@
                             但变量s可以指向一个新的字符串,如s='另一个字符串',旧的'字符串'对象会被清理
                             <class 'str'>类型定义了很多方法如，find,replace,split等
                             注意的是replace等方法返回的是一个新的字符串对象
+        可迭代;
         查看说明: dir(''), help(''.replace)
         如何调出源码?
 
@@ -23,7 +24,8 @@
         元素任意类型; 有序; 不可修改; 是linked还是array??
         <class 'tuple'>, (1, "2", [1, 2], ("3", 2)), 使用()定义元组
         tp[index]按索引取值, tp[i:j]按[i, j)取值，i默认值0，j默认值len(tp), index/i/j可以取负数, 其意义为 len(tp)+index/i/j, index>len(lst): lst[len(lst)] or lst[1:len(lst)+100]
-        嵌套
+        嵌套;
+        可迭代
 
     列表
         元素任意类型; 有序性; 可修改; 是linked还是array??
@@ -33,20 +35,24 @@
         嵌套; 二位数组m = [[1, 2, 3],
                          [4, 5, 6],
                          [7, 8, 9]]   m[0]-->[1,2,3], m[1][2]-->6
+        可迭代;
         列表解析表达式: col = [per[1] for per in m]
         type(lst) == list or isinstance(type(lst))
 
     字典
         key类型:hashable type,value任意类型; 无序性; 可修改
         <class 'dict'>, {"key1": "value", "key2": ['list']} (使用{}定义字典)
+        key的hash运算找桶，hash碰撞时比较key的值，如果key值相等，覆盖(逻辑和HashMap一致)
         d[key]根据key取值; 支持修改,d[key] = value: 覆盖或者插入
         嵌套;
+        可迭代;
         列表解析表达式
 
     集合
         元素类型:hashable type; 无序性; 可修改
         <class 'set'>, {1, '2'}  (使用{}定义集合)
         可通过add等方法修改
+        可迭代
 
     None
         l = None
@@ -90,6 +96,14 @@ a = a + "--";       # 取变量a的值+"--"得到"abc--", 创建字符串对象(
 
 print(a);  # abc
 print(b);  # abc--
+
+
+lst = [1, ["1", 2], "123"]
+lst --->list对象[
+                ref-1         ------->对象1
+                ref-2         ------->对象["1", 2]
+                ref-3         ------->对象"123"
+               ]
 
 
 第三: 字符串与编码
