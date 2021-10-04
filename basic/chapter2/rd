@@ -1,37 +1,40 @@
 第一: 内置基础核心类型
     数字
-        整数<class 'int'>, python没有限制其大小; 十进制数:123654; 二进制数:0b11011; 八进制数:0o71011; 十六进制数:0xabc1209
-        浮点数<class 'float'>, 8个字节存储: 1位符号位，11位指数，52位有效数字，即双精度浮点型; 1.09; 1.09E100; 3.14e-10
+        整数类型 <class 'int'>, python没有限制其大小; 十进制数:123654; 二进制数:0b11011; 八进制数:0o71011; 十六进制数:0xabc1209; 不可变; 可hash(hashable)
+        浮点数<class 'float'>, 8个字节存储:1位符号位，11位指数，52位有效数字，即双精度浮点型; 1.09; 1.09E100; 3.14e-10; 不可变; 可hash(hashable)
+            浮点数的讨论@see project-collects/project-normal
         decimal
             Decimal, 存储精确; 计算确定; 指定小数保存位数; 舍入或者截断规则
         fraction
-            Fraction, Fraction(1, 3)#分子，分母: 存储精确; 计算确定; 指定小数保存位数; 舍入或者截断规则
-        复数       3+4j, 3.0+4.0j
+            Fraction, Fraction(1, 3)#分子，分母是整数: 存储精确; 计算确定; 指定小数保存位数; 舍入或者截断规则
+        复数       3+4j, 3.0+4.0j, todo
 
     字符串
-        <class 'str'> '字符串'; "字符串"; b'a\xo'
+        字符串类型 <class 'str'>
         s[index]按索引取值, s[i:j]按[i,j)分片取值, i默认值0, j默认值len(s), index/i/j可以取负数, 其意义为 len(s)+index/i/j
             索引取值，分片取值，@see chapter2.py/# 第二题、索引运算和分片运算
-        s1 + s2,返回<class 'str'> 合并的字符串; s1 * 8, 返回<class 'str'> s1重复8次的字符串    运算符重载...
-        字符串对象的不可变(类比): 一旦定义一个字符串，如s='字符串',则不能通过位置索引改变字符串，如s[0]='3'将error
-                            但变量s可以指向一个新的字符串,如s='另一个字符串',旧的'字符串'对象会被清理
-                            <class 'str'>类型定义了很多方法如，find,replace,split等
-                            注意的是replace等方法返回的是一个新的字符串对象
-        可迭代;
-        查看说明: dir(''), help(''.replace)
-        如何调出源码?
+        索引赋值，分片赋值报错;
+        合并运算: s1 + s2: 合并运算，新创建字符串对象保存s1，s2合并后的值(不可变性、运算符重载)
+        重复运算: s1 * 8, 重复运算，新创建字符串对象保存s1重复8次的字符串(不可变性、运算符重载)
+        不可变性: 字符串对象提供的replace,split等方法不能够修改原字符串
+        可迭代(iterable)
+        可hash(hashable)
+        属于python中序列
+        如何调出源码 todo
+        字符串more @link 第三: 字符串与编码
 
     元组
         元素任意类型; 有序; 不可修改; 是linked还是array??
-        <class 'tuple'>, (1, "2", [1, 2], ("3", 2)), 使用()定义元组
+        <class 'tuple'>, (1, "2", [1, 2], ("3", 2)), 当遇到()时，创建tuple对象
         tp[index]按索引取值, tp[i:j]按[i, j)分片取值，i默认值0，j默认值len(tp), index/i/j可以取负数, 其意义为 len(tp)+index/i/j
             索引取值，分片取值，@see chapter2.py/# 第二题、索引运算和分片运算
-        嵌套;
-        可迭代
+        嵌套
+        可迭代(iterable)
+        可hash(hashable)
 
     列表
-        元素任意类型; 有序性; 可修改; 是linked还是array??
-        <class 'list'>, [1, '字符串', ['2', '子列表']], 使用[]定义列表
+        元素任意类型; 有序性; 是linked还是array??
+        <class 'list'>, [1, '字符串', ['2', '子列表']], 当遇到[]时，创建list对象
         lst[index]按索引取值, lst[i:j]按[i, j)分片取值，i默认值0，j默认值len(lst), index/i/j可以取负数, 其意义为 len(lst)+index/i/j
             索引取值，索引赋值，分片取值，分片赋值，@see chapter2.py/# 第二题、索引运算和分片运算
         嵌套; 二位数组m = [[1, 2, 3],
@@ -40,17 +43,18 @@
         相等性:  l1 = [1, [2], 3]
                 l2 = [1, [3], 2]
                 print(l1 < l2)  # True, 深度优先遍历
-        可迭代;
+        可迭代(iterable)
         列表解析表达式: col = [per[1] for per in m]
         type(lst) == list or isinstance(type(lst))
 
     字典
-        key类型:hashable type,value任意类型; 无序性; 可修改
-        <class 'dict'>, {"key1": "value", "key2": ['list']} (使用{}定义字典)
-        key的hash运算找桶，hash碰撞时比较key的值，如果key值相等，覆盖(逻辑和HashMap一致)
-        d[key]根据key取值; 支持修改,d[key] = value: 覆盖或者插入
-        嵌套;
-        可迭代;
+        key类型:hashable type,value任意类型; 无序性
+        <class 'dict'>, {"key1": "value", "key2": ['list']} 当遇到{}and:时，创建dict对象
+        hash映射表: key的hash运算找桶，hash碰撞时比较key的值，如果key值相等，覆盖(逻辑和HashMap一致)
+        d[key]: 根据key取值,没有key竟然是报错
+        d[key]=value: 覆盖或者插入
+        嵌套
+        可迭代
         列表解析表达式
 
     集合
@@ -72,13 +76,12 @@
         print(type(b))  //<class 'bool'>
 
 
-
 第二: 对象引用
 python中没有基本类型，int也是一种类类型: <class 'int'>，正因为<class 'int'>不是基本类型(基本类型的int有大小限制如4字节，why基本类型有小大限制,@see如下)，他存放的整数值才可以是无限大的
 <class 'int'>、<class 'str'> 不可变
-a = 1           # a--->1  变量a指向  int对象(值为1)
-b = a           # b--->1  变量b指向  a指向的int对象
-a = a + 2       # a--->3  根据变量a取值+2得到3, 创建int对象保存3{python中int类型是不可变的，所以每次计算都会创建新的int对象}, 变量a指向int对象(值为3)
+a = 1           # a--->1: 创建int对象存1，a指向该对象(a变量存引用值)
+b = a           # b--->1: b指向a指向的对象，即将a变量的引用值赋给b变量
+a = a + 2       # a--->3: 根据a变量引用取得整数1，和整数2做加法运算，得到整数3，创建int对象存3，a指向该对象
 
 print(a)  # 3
 print(b)  # 1
@@ -138,7 +141,8 @@ print(b);  # abc--
 
 第三: 字符串与编码
 
-@ see chapter2-7.py
+@see chapter2-7.py
+and 编码more @see project-collects/project-normal
 
 s = "中h𝄞1"
 变量s存引用值  --->  class<'str'>类型对象{
@@ -150,9 +154,9 @@ s = "中h𝄞1"
                    }
 
 
-第四: list、对象引用，嵌套时要特别注意
+第四: list
 
-lst = [1, ["1", 2], "123"]
+lst = [1, ["1", 2], "123"]  # 当遇到[]会创建列表对象，lst变量存引用值，指向列表对象
 变量lst存引用值 --->  class<'list'>类型对象{
                         [
                             引用         -------> class<'int'>类型对象（该对象的内存空间中开辟一块空间存数字1）
@@ -160,6 +164,17 @@ lst = [1, ["1", 2], "123"]
                             引用         -------> class<'str'>类型对象
                         ]
                     }
+
+
+# 索引运算、分片运算 @see chapter2.py/# 第二题、索引运算和分片运算
+
+## 对象引用 start
+# 索引取值，分片取值拷贝引用值
+lst = [1, [1, 2]]
+lst_2 = lst[0:]
+print(lst[0] is lst_2[0])  # True
+print(lst[1] is lst_2[1])  # True
+
 
 # 只是拷贝引用值(所以当对象是可变的时候要特别注意)
 t = 1
@@ -169,9 +184,10 @@ lst = [t, lst_n]        # t、lst_n的引用值拿过来了，并不是数据拷
 print(t is lst[0])      # True
 print(lst_n is lst[1])  # True
 
-# 重复，合并，分片只是拷贝引用值(所以当对象是可变的时候要特别注意)
+
+# 重复，合并只是拷贝引用值(所以当对象是可变的时候要特别注意)
 lst = ['123', [1, 2]]
-x = lst * 2           # 重复: 引用值拷贝
+x = lst * 2            # 重复: 引用值拷贝
 print(x[0] is lst[0])  # True
 print(x[0] is x[2])    # True
 print(x[1] is lst[1])  # True
@@ -181,6 +197,16 @@ print(x)               # ['123', [1, 2], '123', [1, 2]]
 lst[0] = '321'  # 因为字符串不可变，lst[0]会指向'321', x[0]、x[2]还是指向'123'
 lst[1][0] = 0   # lst[1]指向列表对象(x[1]、x[3]也指向该列表对象)，lst[1][0]=0: 将lst[1]指向的列表对象中的第一个元素指向对象0
 print(x)               # ['123', [0, 2], '123', [0, 2]]
+
+## 对象引用 end
+
+# 列表对象方法调用
+lst.append(任意对象)
+lst.insert(index, 任意对象)  # index必须是数字,原>=index的元素向后移动
+lst.extend(iterable)        # iterable中每一个元素依次append, lst.extend({'a': 1, 'b': 2}), 将key iterable后append
+lst.pop()
+lst.remove(index)           # index必须是数字,原>=index的元素向前移动
+...
 
 
 
@@ -206,8 +232,5 @@ json反序列化: json字符串反序列化成对象
 @see xy-service-sample
 
 
-第七: bug
-l = [4, 5, 6, [1, 2]]
-x = l * 4
 
 
