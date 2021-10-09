@@ -75,3 +75,4 @@ print(m)          # [1, 2, 'n', 'e', 'w']
 print(m is lst)   # True
 # lst += 3   # error: 'int' object is not iterable
 
+# note: +=可以理解成运算符重载，每一个类型只要重载了+=就可以使用+=
