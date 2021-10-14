@@ -1,3 +1,4 @@
+import sys
 
 # 赋值语句
 
@@ -76,3 +77,28 @@ print(m is lst)   # True
 # lst += 3   # error: 'int' object is not iterable
 
 # note: +=可以理解成运算符重载，每一个类型只要重载了+=就可以使用+=
+
+
+# print函数
+# note: file参数的类型是_Writer, _Writer协议定义write(str)方法,即只要定义了write(str)方法的类型都可以
+#       函数传值只是传递引用值，引用值可任意指向任意类型对象，在运行时通过引用值拿到对象才知道对象类型
+#       print(1, "2", [1, '3'], sep=' ', end="\n", file=1)  # 在运行时使用file.write(str)方法，只是class<'int'>没有定义该方法罢了
+print(1, "2", [1, '3'], sep=' ', end="\n", file=sys.stdout)
+print(type(sys.stdout))  # <class '_io.TextIOWrapper'>
+print(type(sys.stderr))  # <class '_io.TextIOWrapper'>
+
+wf = open("tm", 'w', encoding="utf-8")
+print(type(wf))          # <class '_io.TextIOWrapper'>
+print(1, "2", [1, '3'], sep=' ', end="\n", file=wf, flush=True)
+
+wf.close()
+
+# sys.stdout重定向，注意与shell中标准输出流的重定向概念上是不同的
+# orig = sys.stdout
+# sys.stdout = open("tm", 'w', encoding="utf-8")
+#   do something
+# sys.stdout.close()
+# sys.stdout = orig
+
+
+
