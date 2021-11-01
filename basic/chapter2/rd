@@ -37,7 +37,7 @@
         <class 'list'>, [1, '字符串', ['2', '子列表']], 当遇到[]时，创建list对象
         lst[index]按索引取值, lst[i:j]按[i, j)分片取值，i默认值0，j默认值len(lst), index/i/j可以取负数, 其意义为 len(lst)+index/i/j
             索引取值，索引赋值，分片取值，分片赋值，@see chapter2.py/# 第二题、索引运算和分片运算
-        嵌套; 二位数组m = [[1, 2, 3],
+        嵌套; 二维数组m = [[1, 2, 3],
                          [4, 5, 6],
                          [7, 8, 9]]   m[0]-->[1,2,3], m[1][2]-->6
         相等性:  l1 = [1, [2], 3]
@@ -136,7 +136,19 @@ print(b);  # abc--
 
 3、why基本类型有小大限制 ？
 考虑如下代码 method(int i, Obj obj)，这段代码中，如果不知道int的大小，就没办法声明int的内存空间了
-                                   然而，Obj这里传递的是引用值(引用值大小一定)
+                                   注意，Obj这里传递的是引用值(引用值大小一定)
+
+4、类型检查机制
+  java变量有类型: 声明一个变量时指定的类型
+  python语法上没有类型检查机制: 因为python的变量没有类型,变量只是保存引用值,变量可以随意指向任意对象
+  eg:
+  lst[i:j] = param  # 列表分片赋值运算时
+                    # param可以是任意对象，语法上没有检查是否是iterable的，实际上也没办法检查，因为python中iterable不是以基类的形式出现的，而是更像一种协议: 规定__iter__方法
+                    # 运行时会调用param.__iter__方法以迭代，如果param指向的对象没有__iter__方法(can not iterable)，则报错
+
+  i = 1
+  for x in i:    # 运行时，TypeError: 'int' object is not iterable
+    print(x)
 
 
 第三: 字符串与编码
