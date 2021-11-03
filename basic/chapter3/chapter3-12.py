@@ -1,7 +1,7 @@
 
 # 真值测试
 # 非零数字和非空字符串为True，数字0和空字符串为False，None是False
-# list、tuple、dic、set递归比较 or relative with __bool__方法
+# list、tuple、dic、set递归比较 or relative with __bool__方法 todo
 
 print(type(True))  # <class 'bool'>, bool类型对象，存True(整数1)
 print(type(False))  # <class 'bool'>, bool类型对象，存False(整数0)
