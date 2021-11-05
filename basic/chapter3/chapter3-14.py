@@ -6,6 +6,7 @@ from collections.abc import Iterator
 
 # Iterator(迭代器): 定义了__iter__、__next__方法的对象是迭代器，"迭代器"协议的定义在class Iterator中
 #           迭代器的__iter__方法返回自身(因为他自身就定义了__next__方法),迭代器的__next__方法迭代自身
+# note: 很多地方说需要Iterator类型，实际理解成需要__next__方法(而如果定义了__next__方法，那么__iter__方法就是举手之劳的，所以单独只定义__next__可行但是不规范)
 
 # 迭代器对象: 定义了__next__方法的对象是迭代器对象
 #           迭代器对象调用__next__方法不断迭代自身，在一系列迭代之后到达迭代器对象尾部，若再次调用.__next__方法，则触发StopIteration异常
