@@ -5,25 +5,25 @@ from collections.abc import Iterator
 #           __iter__方法，需要返回迭代器对象(即定义了__next__方法的对象)，或者返回Iterator(同时定义了__iter__和__next__方法)
 
 # Iterator(迭代器): 定义了__iter__、__next__方法的对象是迭代器，"迭代器"协议的定义在class Iterator中
-#           迭代器的__iter__方法返回自身(因为他自身就定义了__next__方法),迭代器的__next__方法迭代自身
+#           迭代器的__iter__方法返回自身(因为他自身就定义了__next__方法),迭代器调用__next__方法进行迭代
 # note: 很多地方说需要Iterator类型，实际理解成需要__next__方法(而如果定义了__next__方法，那么__iter__方法就是举手之劳的，所以单独只定义__next__可行但是不规范)
 
 # 迭代器对象: 定义了__next__方法的对象是迭代器对象
-#           迭代器对象调用__next__方法不断迭代自身，在一系列迭代之后到达迭代器对象尾部，若再次调用.__next__方法，则触发StopIteration异常
+#           迭代器对象调用__next__方法进行迭代，在一系列迭代之后到达迭代器对象尾部，若再次调用.__next__方法，则触发StopIteration异常
 
 
 # class list(object)定义了__iter__方法，没有定义__next__方法
 lst = []
 print(isinstance(lst, Iterable))  # True
 print(isinstance(lst, Iterator))  # False
-# class list的__iter__方法，返回list_iterator(对list进行遍历的Iterator)
+# class list的__iter__方法，返回list_iterator，他是一个Iterator
 print(lst.__iter__())  # <list_iterator object at 0x00000194340C5710>
-print(isinstance(lst.__iter__(), Iterator))  # True, list_iterator是Iterator
+print(isinstance(lst.__iter__(), Iterator))  # True
 
 # str、tuple、dict、set这些类型均定义了__iter__方法，没有定义__next__方法
 print("---------1.1--------")
 
-# _io./class TextIOWrapper(_TextIOBase)定义了__next__方法，基类_IOBase定义了__iter__方法
+# class _io.TextIOWrapper定义了__next__方法，基类class _IOBase定义了__iter__方法
 tm = open("tm", 'r', encoding="utf-8")
 print(isinstance(tm, Iterable))  # True
 print(isinstance(tm, Iterator))  # True
@@ -140,10 +140,10 @@ class A(object):
 
 # iter函数、next函数（@see Python 3.8标准库参考）
 a = A()
-a_iter = iter(a)     # 接收一个Iterable iterable参数，调用iterable.__iter__方法返回
+a_iter = iter(a)     # 接收一个Iterable，调用iterable.__iter__方法返回
 print(type(a_iter))  # <class '__main__.B'>
 
-n = next(a_iter)   # 接收一个定义了__next__方法的对象，调用__next__方法获取下一个元素，如果迭代器耗尽，则返回给定的default，如果没有默认值则触发StopIteration
+n = next(a_iter)   # 接收一个Iterator(本质上只要定义了__next__方法即可)，调用__next__方法获取下一个元素
 print(n)
 # next(a_iter)     # StopIteration
 
