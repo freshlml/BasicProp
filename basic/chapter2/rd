@@ -20,7 +20,11 @@
         可迭代(iterable)
         可hash(hashable)
         属于python中序列
-        如何调出源码 todo
+        查看源码: python中源码文件即找*.py即可，但是很遗憾，里面很多没有实现，具体的实现在C语言中
+           例如: def next(...):
+                    pass
+           py文件中定义的next函数，使用pass占位符，具体实现代码用C写的
+           github/cpython clone源代码看
         字符串more @link 第三: 字符串与编码
 
     元组
