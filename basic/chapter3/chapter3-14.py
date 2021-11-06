@@ -58,6 +58,30 @@ print(p1 is p2)   # True
 # str、tuple、dict、set这些类型和list的迭代器逻辑一致
 print("---------1.3--------")
 
+# class dict的keys()、values()、items()
+dct = {"a": "aa", "1": 11}
+# 每次调用keys()方法，构造一个class dict_keys对象(保存dict的引用值)返回
+dct_keys = dct.keys()
+print(type(dct_keys))  # <class 'dict_keys'> ?
+# class dict_keys定义了__iter__方法,没有定义__next__方法
+dct_keys_iter1 = dct_keys.__iter__()  # 每次调用__iter__方法，构造class dict_keyiterator对象返回
+dct_keys_iter2 = dct_keys.__iter__()
+print(type(dct_keys_iter1))  # <class 'dict_keyiterator'>
+print(dct_keys_iter1.__next__())  # a
+print(dct_keys_iter2.__next__())  # a
+
+# values和items方法与keys方法一致
+dct_values = dct.values()
+print(type(dct_values))  # <class 'dict_values'>
+print(isinstance(dct_values, Iterable))  # True
+print(isinstance(dct_values, Iterator))  # False
+dct_items = dct.items()
+print(type(dct_items))   # <class 'dict_items'>
+print(isinstance(dct_items, Iterable))  # True
+print(isinstance(dct_items, Iterator))  # False
+
+print("---------1.4--------")
+
 # class range, 定义了__iter__,没有定义__next__
 rg = range(3)
 print(isinstance(rg, Iterable))  # True
@@ -69,7 +93,7 @@ rg_iter2 = iter(rg)
 print(next(rg_iter1))  # 0
 print(next(rg_iter2))  # 0
 
-print("---------1.4--------")
+print("---------1.5--------")
 
 # enumerate、zip、filter
 # 定义了__iter__(返回自身，其实还有一种实现，返回构造时的Iterable.__iter__但充满歧义),定义__next__
@@ -87,7 +111,7 @@ three = next(ft)  # StopIteration or not
 # 构造器filter(None, lst)执行时，调用list.__iter__方法创建list的Iterator保存，并没有遍历list中每一个元素，拷贝每一个元素的引用值到新创建的列表
 #  当对filter迭代(调用__next__方法)时，使用list的Iterator迭代
 
-print("------1.5------")
+print("------1.6------")
 
 
 class B(object):
@@ -124,11 +148,6 @@ print(n)
 # next(a_iter)     # StopIteration
 
 print("---------2--------")
-
-
-
-
-
 
 
 
