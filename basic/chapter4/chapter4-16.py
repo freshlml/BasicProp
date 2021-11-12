@@ -42,7 +42,62 @@ print(param is ret_value)  # True
 
 # 递归: 每次函数(或方法)调用都有一个局部作用域(想一想递归，想一想java中每一个方法调用对应线程栈中的一个栈帧)
 
+# global
+global_param = "global_param"
 
 
+def glb():
+    global global_param, global_param1  # 在外部module中查找并引用之，如果没有在外部module中创建一个同名变量
+    global_param1 = 2
+    return global_param
 
+
+print(glb())  # global_param
+print(global_param1)  # 2
+
+
+# 嵌套
+def outer():
+    n = 2
+
+    def inner():
+        return 2 ** n  # 内嵌的函数，函数体中引用变量n，在执行的时候获取变量n（def执行的时候创建function，但此时并不执行函数体代码，所以此时不知道n）
+    return inner
+
+
+outer_inner = outer()
+print(outer_inner())  # 4
+
+
+def outer2():
+    ret = []
+    for n in range(2):
+        ret.append(lambda param1, x=n: param1 ** x)  # lambda的参数列表中使用参数x保存每次循环的n值
+    return ret
+
+
+ou2 = outer2()
+print(ou2[0](2))  # 1
+print(ou2[1](2))  # 2
+
+
+# nonlocal
+def outer3(n):
+    state = n
+
+    def inner():
+        nonlocal state  # 在外层def中查找变量state并引用之，如果没有会报错
+        state = state + 1
+        return state
+
+    return inner
+
+
+outer3_inner = outer3(2)
+print(outer3_inner())  # 3
+print(outer3_inner())  # 4, 重复调用inner
+
+outer3_inner_2 = outer3(3)
+print(outer3_inner_2())  # 4
+print(outer3_inner_2())  # 5
 
