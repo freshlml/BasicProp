@@ -47,8 +47,8 @@ global_param = "global_param"
 
 
 def glb():
-    global global_param, global_param1  # 在外部module中查找并引用之，如果没有在外部module中创建一个同名变量
-    global_param1 = 2
+    global global_param, global_param1  # 在外部module中查找并引用之，如果外部module没有该变量后续可能在外部module中创建一个同名变量
+    global_param1 = 2  # 在外部module中创建变量
     return global_param
 
 
@@ -93,6 +93,7 @@ def outer3(n):
     return inner
 
 
+# state闭包，每次调用outer3，产生一个局部变量state,inner使用各自的state
 outer3_inner = outer3(2)
 print(outer3_inner())  # 3
 print(outer3_inner())  # 4, 重复调用inner
