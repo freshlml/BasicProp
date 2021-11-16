@@ -80,7 +80,7 @@ print(m is lst)   # True
 
 
 # print函数
-# note: file参数的类型是_Writer, _Writer协议定义write(str)方法,即只要定义了write(str)方法的类型都可以
+# note: file参数的协议是_Writer, _Writer协议定义write(str)方法,即只要定义了write(str)方法的类型都可以
 #       函数传值只是传递引用值，引用值可任意指向任意类型对象，在运行时通过引用值拿到对象才知道对象类型
 #       print(1, "2", [1, '3'], sep=' ', end="\n", file=1)  # 在运行时使用file.write(str)方法，只是class<'int'>没有定义该方法罢了
 print(1, "2", [1, '3'], sep=' ', end="\n", file=sys.stdout)
