@@ -97,7 +97,7 @@ print("---------1.5--------")
 
 # enumerate、zip、filter
 # 定义了__iter__(返回自身，其实还有一种实现，返回构造时的Iterable.__iter__但充满歧义),定义__next__
-# 节省内存空间 -->  构造时没有对参数迭代进而拷贝引用值
+# 节省内存空间 -->  构造时没有对参数迭代而是拷贝引用值
 lst = [1, 2]
 ft = filter(None, lst)
 print(isinstance(ft, Iterator))  # True

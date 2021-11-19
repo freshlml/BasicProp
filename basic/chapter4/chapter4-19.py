@@ -40,12 +40,13 @@ print("-----------------")
 lst = [1, 2, 3]
 tp = ('1', '2', '3', '4')
 ret = map((lambda x, y: (x+10, y+'-', )), lst, tp)
-print(type(ret))  # <class 'map'>
+print(type(ret))  # <class 'map'>, is Iterator
 for p in ret:
     print(p)
 # (11, '1-')
 # (12, '2-')
 # (13, '3-')
+if ret: print("123")
 
 lst = [[1], [2], [3]]
 ret = map(lambda x: x.append('x'), lst)
@@ -59,7 +60,7 @@ print(lst[1])  # [2]
 # 流式调用 or 嵌套调用
 # list.stream().filter(elem -> elem.isJava()).map(elem -> elem.getId()).reduce(Integer::sum)
 lst = [1, 2, -1, 4, -2]
-one = filter(lambda x: x > 0, lst)
+one = filter(lambda x: x > 0, lst)  # class filter, is Iterator
 two = map(lambda x: x+1, one)
 ret = reduce(lambda x, y: x+y, two)  # reduce是函数
 print(ret)  # 10

@@ -25,7 +25,7 @@ class A(object):
 # 3、引用可以指向任意对象，如int、list、function、lambda、declared class
 
 # 函数参数定义:
-# 1、def function(param): param可以位置传参 或者 按关键字传参
+#  1、def function(param): param可以按位置传参 或者 按关键字传参
 #  2、def function(*params):  接收多个参数(包括0个),按位置传参,按关键字传参报错
 #  3、def function(**params): 接收多个参数(包括0个),按关键字传参,按位置传参报错
 #  # 通用(混合)形式: 按位置传参必须在按关键字传参之前
