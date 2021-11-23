@@ -32,7 +32,7 @@ class A(object):
 #  def function(p1, p2, *p3, p4, p5, **p6)
 #      p1、p2按位置or关键字传参，p3只能按位置传参
 #      p4、p5只能按关键字传参，p6只能按关键字传参
-#  4、如果定义时有默认值，调用时可以不传
+#  4、如果定义时有默认值，调用时可以不传，默认值在def解析时保存在function对象中，对于每次的函数调用来说是全局的
 #     def function(param=default_value)
 # 函数参数传参形式: 按位置传参和按关键字传参
 #   1、function(*iterable): 迭代后按位置传参

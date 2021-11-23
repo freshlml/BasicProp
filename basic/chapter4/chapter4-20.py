@@ -19,7 +19,7 @@ print(ret.__next__())  # 1
 # todo,生成器方法,send,throw,close...
 
 
-# 生成器表达式: class generator = (expression for ... in ... if...)
+# 生成器表达式: class generator = (expression for x in iterable if predicate)
 lst = [1, 2, 3]
 gene = (x * 10 for x in lst)
 print(type(gene))  # <class 'generator'>， is Iterator
