@@ -34,7 +34,7 @@ class A(object):
 #      p4、p5只能按关键字传参，p6只能按关键字传参
 #  4、如果定义时有默认值，调用时可以不传，默认值在def解析时保存在function对象中，对于每次的函数调用来说是全局的
 #     def function(param=default_value)
-# 函数参数传参形式: 按位置传参和按关键字传参
+# 函数第调用传参形式: 按位置传参和按关键字传参
 #   1、function(*iterable): 迭代后按位置传参
 #   2、function(**dict): 解析dict形成key=value,按关键字传参
 #   3、function(1),按位置传参，function(param=1),按关键字传参
