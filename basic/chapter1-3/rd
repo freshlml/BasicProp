@@ -37,7 +37,7 @@
 
         from basics import vps  ##从basics模块中将vps变量的值复制给此中的vps变量
         print(vps)            ##是 '修改' 而不是 'vps 中'
-    5、import传递依赖问题
+    5、import执行方式
             sys
              | \
         basics  \
@@ -48,8 +48,8 @@
             import sys
             sys.path = 1
         chapter1-3.py:               ##chapter1-3运行
-            import sys               ##import sys执行: 将在chapter1-3命名空间中加载并执行sys模块
-            import basics            ##import basics执行: 将在chapter1-3命名空间中加载并执行basics模块: 在执行basics模块时，1、import sys执行: 在chapter1-3命名空间由于sys模块已经被加载了，所以不会重复执行;2、sys.path=1执行，此处修改的将是chapter1-3命名空间中加载的sys模块
+            import sys               ##import sys执行: 查找执行sys
+            import basics            ##import basics执行: 查找执行basics,在执行basics时,1、import sys执行: 在chapter1-3命名空间由于sys模块已经被加载了，所以不会重复执行;2、sys.path=1执行，此处修改的将是chapter1-3命名空间中加载的sys模块
             print(sys.path)          ##所以这里是1
 
 
