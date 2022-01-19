@@ -17,8 +17,7 @@ print(sys.path)
 
 print(imported1.module_param)
 
-# todo,disutils,venv
-
+# todo,disutils,venv,__import__
 
 
 
