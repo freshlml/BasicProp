@@ -19,6 +19,11 @@ print(imported1.module_param)
 
 # todo,disutils,venv,__import__
 
+print(type(imported1))  # <class 'module'>
+
+# dir()函数,__dir__()协议方法
+print(dir(imported1))
+print(imported1.__dir__())
 
 
 
