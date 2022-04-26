@@ -11,7 +11,7 @@
 
     字符串
         字符串类型 <class 'str'>
-        s[index]按索引取值, s[i:j]按[i,j)分片取值, i默认值0, j默认值len(s), index/i/j可以取负数, 其意义为 len(s)+index/i/j
+        s[index]按索引取值, s[i:j]按[i,j)分片取值, i默认值0, j默认值len(s), index/i/j可以取负数, 最后一个数为-1，以此类推
             索引取值，分片取值，@see chapter2.py/# 第二题、索引运算和分片运算
         索引赋值，分片赋值报错;
         合并运算: s1 + s2: 合并运算，新创建字符串对象保存s1，s2合并后的值(不可变性、运算符重载)
@@ -30,7 +30,7 @@
     元组
         元素任意类型; 有序; 不可修改; 是linked还是array??
         <class 'tuple'>, (1, "2", [1, 2], ("3", 2)), 当遇到()时，创建tuple对象
-        tp[index]按索引取值, tp[i:j]按[i, j)分片取值，i默认值0，j默认值len(tp), index/i/j可以取负数, 其意义为 len(tp)+index/i/j
+        tp[index]按索引取值, tp[i:j]按[i, j)分片取值，i默认值0，j默认值len(tp), index/i/j可以取负数, 最后一个数为-1，以此类推
             索引取值，分片取值，@see chapter2.py/# 第二题、索引运算和分片运算
         嵌套
         可迭代(iterable)
@@ -39,7 +39,7 @@
     列表
         元素任意类型; 有序性; 是linked还是array??
         <class 'list'>, [1, '字符串', ['2', '子列表']], 当遇到[]时，创建list对象
-        lst[index]按索引取值, lst[i:j]按[i, j)分片取值，i默认值0，j默认值len(lst), index/i/j可以取负数, 其意义为 len(lst)+index/i/j
+        lst[index]按索引取值, lst[i:j]按[i, j)分片取值，i默认值0，j默认值len(lst), index/i/j可以取负数, 最后一个数为-1，以此类推
             索引取值，索引赋值，分片取值，分片赋值，@see chapter2.py/# 第二题、索引运算和分片运算
         嵌套; 二维数组m = [[1, 2, 3],
                          [4, 5, 6],
