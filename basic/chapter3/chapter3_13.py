@@ -1,3 +1,5 @@
+from collections.abc import Iterable
+from collections.abc import Iterator
 
 # for param in iterable
 lst = [1, 2, '3', [1, '2']]
@@ -8,7 +10,8 @@ print("\n------1------")
 
 tm = open("tm", 'r', encoding="utf-8")
 print(type(tm))    # <class '_io.TextIOWrapper'>
-for param in tm:   # <class '_io.TextIOWrapper'>类型可iterable,每次iter返回一行，相当于readline
+print(isinstance(tm, Iterator))  # True
+for param in tm:   # <class '_io.TextIOWrapper'> is Iterator,__iter__返回自身，__next__每次返回一行
     print(param, end='')
 tm.close()
 print()
