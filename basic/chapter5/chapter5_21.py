@@ -24,6 +24,7 @@ from sub import sub_dic
 # 相对导入top-level package内或者其子目录中模块
 # from . import current_dic                  # error: 当前运行的py不能使用相对导入,cannot import name 'current_dic' from '__main__'
 
+import current_loop
 
 # sys.path: 当前py文件所在目录，标准库目录，todo
 print("chapter5_21", sys.path, sep=": ", end="\n")
