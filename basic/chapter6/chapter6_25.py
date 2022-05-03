@@ -63,9 +63,6 @@ class Base2(object):
 class B(Base1, Base2):
     b_attr = "b_attr"
 
-    def __init__(self, attr):
-        self.attr = attr
-
 
 print(type(Base1))  # <class 'type'>
 print(dir(Base1))  # 'base1_attr', 'bs1'
@@ -79,7 +76,7 @@ print(dir(B))  # 'b_attr', 'base1_attr', 'base2_attr', 'bs1'
 print(B.base1_attr)  # base1_attr
 print(B.base2_attr)  # base2_attr
 
-bb = B("bbb")  # 构造B类的实例对象, 基类构造?todo
+bb = B("bbb")  # 构造B类的实例对象, 会立马调用初始化方法，通过方法搜索将会调用基类Base1中__init__方法
 print(dir(bb))  # 'attr', 'b_attr', 'base1_attr', 'base2_attr', 'bs1'
 print(bb.attr)  # bbb
 print(bb.b_attr)  # b_attr
@@ -89,8 +86,8 @@ print(bb.base1_attr)  # Base1修改base1_attr
 print(bb.bs1().attr)  # bbb
 
 
-# 属性搜索优先级: 对象属性，类属性，基类(从左到右，深度优先)属性
-# 方法搜索优先级: 类方法，基类(从左到右，深度优先)方法
+# 属性搜索: 对象属性，类属性，基类(从左到右，深度优先)属性
+# 方法搜索: 类方法，基类(从左到右，深度优先)方法，注意方法搜索只看方法名(这和其他语言不一样，因为python中所谓的方法名和属性变量没有任何区别)
 class T(object):
     attr = "attr_t"
 
@@ -103,6 +100,12 @@ class One(T):
 
     def o_mt(self):
         return self
+
+    def mm(self, param):
+        return "one mm " + param
+
+    def mm2(self, param):
+        return "one mm2 " + param
 
 
 class Two(object):
@@ -118,8 +121,16 @@ class C(One, Two):
     def __init__(self):
         self.c = "实例"
 
+    def mm(self, param, param2="param2"):
+        return "C " + param + param2
+
+    def mm2(self, param, param2):
+        return "mm2 " + param + param2
+
 
 c = C()
 print(c.c)  # 实例
 print(c.attr)  # attr_t
 print(c.mt())  # t
+print(c.mm("111 "))  # C 111 param2 ,方法搜索: 仅根据方法名称，而不管参数
+# print(c.mm2("111 "))  # TypeError: mm2() missing 1 required positional argument: 'param2'
