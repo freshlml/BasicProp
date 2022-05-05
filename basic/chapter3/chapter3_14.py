@@ -1,6 +1,7 @@
 from collections.abc import Iterable
 from collections.abc import Iterator
 
+# _collections_abc
 # Iterable(可迭代的): 定义了__iter__方法的对象是可迭代的(Iterable), "可迭代的"协议的定义在class Iterable中
 #           __iter__方法，需要返回迭代器对象(即定义了__next__方法的对象)，或者返回Iterator(同时定义了__iter__和__next__方法)
 
