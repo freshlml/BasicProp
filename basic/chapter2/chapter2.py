@@ -32,7 +32,14 @@ print(lst)  # [1, 2, 3, 4, 5, 6]
 print("------1--------\n")
 
 # 第二题、索引运算和分片运算
-# 索引赋值，lst[index]=任意对象，将任意对象的引用写入index位置
+
+# 索引取值: 如果索引超界，报异常
+lst = [1, 2, 3, 4, 5]
+# lst[100]  # 索引取值时，index超界报错: index out of range
+
+print("------2.1--------\n")
+
+# 索引赋值: lst[index]=任意对象，将任意对象的引用写入index位置, index超界，报异常
 lst = [1, 2, 3, 4, 5]
 lst[4] = []    # 索引赋值
 print(lst)     # [1, 2, 3, 4, []]
@@ -42,10 +49,59 @@ lst[4] = ['n', 'w']
 print(lst)     # [1, 2, 3, 4, ['n', 'w']]
 lst[-1] = "负"
 print(lst)  # [1, 2, 3, 4, '负']
+# lst[100] = 'n'  # list assignment index out of range
 
-print("------2.1--------\n")
+print("------2.2--------\n")
 
-# 分片赋值，lst[i:j]=iterable，将iterable中每一个元素的引用写入[i:j)分片
+# 分片取值: start<=end or start>end和start,end超界等各种情况，其代码逻辑@link chapter6_29_1
+lst = [1, 2, 3, 4, 5]
+# start: (-∞, -5); [-5,0); [0,5); [5,+∞)
+#         0        +5       原     取不到
+# end:   (-∞, -5]; (-5,0); [0,5]; (5,+∞)
+#        取不到      +5      原     5
+print(lst[-9:-8])  # [], 取不到:stop=-8<=-5
+print(lst[-5:-8])  # [], 取不到:stop=-8<=-5
+print(lst[-3:-8])  # [], 取不到:stop=-8<=-5
+print(lst[0:-8])  # [], 取不到:stop=-8<=-5
+print(lst[2:-8])  # [], 取不到:stop=-8<=-5
+print(lst[5:-8])  # [], 取不到:stop=-8<=-5
+print(lst[6:-8])  # [], 取不到:stop=-8<=-5
+print(lst[6:-5])  # [], 取不到:stop=-5<=-5
+
+print(lst[-6:-3])  # [1, 2], [0,2)
+print(lst[-5:-3])  # [1, 2], [0,2)
+print(lst[-2:-3])  # [], [3,2) 取不到:start>=end
+print(lst[-4:-3])  # [2], [1,2)
+print(lst[0:-3])  # [1, 2], [0,2)
+print(lst[1:-3])  # [2], [1,2)
+print(lst[3:-3])  # [], [3,2) 取不到:start>=end
+print(lst[5:-3])  # [], 取不到:start=5>=5
+print(lst[6:-3])  # [], 取不到:start=6>=5
+
+print(lst[1:0])  # [], 取不到:start>=end
+
+print(lst[-6:2])  # [1, 2], [0,2)
+print(lst[-5:2])  # [1, 2], [0,2)
+print(lst[-1:2])  # [], [4,2) 取不到:start>=end
+print(lst[-4:2])  # [2], [1,2)
+print(lst[0:2])  # [1, 2], [0,2)
+print(lst[1:2])  # [2], [1,2)
+print(lst[3:2])  # [], [3,2) 取不到:start>=end
+print(lst[5:2])  # [], 取不到:start=5>=5
+print(lst[6:2])  # [], 取不到:start=6>=5
+
+print(lst[-6:6])  # [1, 2, 3, 4, 5], [0,5)
+print(lst[-5:6])  # [1, 2, 3, 4, 5], [0,5)
+print(lst[-1:6])  # [5], [4,5)
+print(lst[-4:6])  # [2, 3, 4, 5], [1,5)
+print(lst[0:6])  # [1, 2, 3, 4, 5], [0,5)
+print(lst[1:6])  # [2, 3, 4, 5], [1,5)
+print(lst[6:6])  # [], 取不到:start=6>=5
+print(lst[7:6])  # [], 取不到:start=7>=5
+
+print("------2.3--------\n")
+
+# 分片赋值: lst[i:j]=iterable，将iterable中每一个元素的引用写入[i:j)分片
 lst = [1, 2, 3, 4, 5]
 lst[0:2] = []     # 分片赋值, 当iterable为空时，表示将空赋值过去,理解为特殊的一种删除操作!!!注意
 print(lst)        # [3, 4, 5]
@@ -55,97 +111,74 @@ lst[0:2] = 'new'  # 分片赋值，将字符串iterable后写入
 print(lst)        # ['n', 'e', 'w']
 # lst[0:2] = 1      # 报错: can only assign an iterable
 
-print("------2.2--------\n")
-
-# 索引index超界，取值、赋值、按索引删除均报错
-lst = [1, 2, 3, 4, 5]
-# lst[100]  # 索引取值时，index超界报错: index out of range
-# lst[100] = 'n'  # list assignment index out of range
-
-print("------2.3--------\n")
-
-# 分片取值逻辑测试(start<=end or start>end)
-lst = [1, 2, 3, 4, 5]
-# [-5,5)
-# start: [5,+∞); [0,5); [-5,0); (-∞, -5)
-#        取不到   原      +5      0
-# end:   (-∞, -5]; (-5,0); [0,5]; (5,+∞)
-#        取不到      +5      原     5
-print(lst[-9:-8])  # [], 取不到: stop=-8<=-5
-print(lst[-7:-8])  # [], 取不到: stop=-8<=-5
-print(lst[-3:-8])  # [], 取不到: stop=-8<=-5
-print(lst[2:-8])   # [], 取不到: stop=-8<=-5
-print(lst[5:-8])   # [], 取不到: stop=-8<=-5
-print(lst[-5:-5])  # [], 取不到: stop=-8<=-5
-
-print(lst[-6:-4])  # [1], [0,1)
-print(lst[-5:-4])  # [1], [0,1)
-print(lst[-3:-4])  # [], [2,1) 取不到
-print(lst[2:-4])   # [], [2,1) 取不到
-print(lst[5:-4])   # [], 取不到: start=5>=5
-print(lst[6:-5])  # [], 取不到: start=6>=5
-
-print(lst[-9:0])  # [], [0,0) 取不到
-print(lst[-5:0])  # [], [0,0) 取不到
-print(lst[-4:0])  # [], [1,0) 取不到
-print(lst[-9:1])  # [1], [0,1)
-print(lst[-5:1])  # [1], [0,1)
-print(lst[-4:1])  # [], [1,1) 取不到
-print(lst[-3:1])  # [], [2,1) 取不到
-print(lst[2:1])  # [], [2,1) 取不到
-
-print(lst[-9:5])  # [1, 2, 3, 4, 5], [0,5)
-print(lst[-4:5])  # [2, 3, 4, 5], [1,5)
-print(lst[1:5])   # [2, 3, 4, 5], [1,5)
-
-
-print(lst[5:6])   # [], 取不到: start=5>=5
-print(lst[6:6])   # [], 取不到: start=6>=5
-print(lst[5:-6])  # [], 取不到: start=5>=5
-print(lst[5:-5])  # [], 取不到: start=5>=5
-print(lst[5:-2])  # [], 取不到: start=5>=5
-print(lst[5:0])  # [], 取不到: start=5>=5
-print(lst[5:5])  # [], 取不到: start=5>=5
-print(lst[5:6])  # [], 取不到: start=5>=5
-
-print(lst[1:6])  # [2, 3, 4, 5], [1,5)
-print(lst[1:0])  # [], [1,0) 取不到
-print(lst[1:-4])  # [], [1,1) 取不到
-print(lst[1:-5])  # [], 取不到: stop=-5<=-5
-print(lst[0:-4])  # [1], [0,1)
-
-print(lst[-5:-4])  # [1], [0,1)
-print(lst[-5:0])  # [], [0,0) 取不到
-print(lst[-5:6])  # [1, 2, 3, 4, 5], [0,5)
-print(lst[-4:-4])  # [], [1,1) 取不到
-print(lst[-4:-3])  # [2], [1,2)
-print(lst[-4:0])  # [], [1,0) 取不到
-print(lst[-4:1])  # [], [1,1) 取不到
-print(lst[-4:2])  # [2], [1,2)
-
-print(lst[-6:-5])  # [], 取不到: stop=-5<=-5
-print(lst[-6:-4])  # [1], [0,1)
-print(lst[-6:0])  # [], [0,0) 取不到
-print(lst[-6:1])  # [1], [0,1)
-print(lst[-6:6])  # [1, 2, 3, 4, 5], [0,5)
-
-print(lst[-3:-4])  # [], [2,1) 取不到
-print(lst[-6:-6])  # [], 取不到: stop=-8<=-5
-
-
-# 分片赋值时i、j超界
-lst[-9:-8] = "负"
-print(lst)  # ['负', 1, 2, 3, 4, 5]
-lst[-100:2] = ['new']
-print(lst)  # ['new', 2, 3, 4, 5]
-
 print("------2.4--------\n")
 
-# 分片时i>j, 赋值、按分片删除,其[i:j]缩放成[i:i]
+# 分片赋值: start<=end or start>end和start,end超界等各种情况，其代码逻辑@link chapter6_29_1
 lst = [1, 2, 3, 4, 5]
+# start: (-∞, -5); [-5,0); [0,5); [5,+∞)
+#        0         +5      原      5
+# end:   (-∞, -5]; (-5,0); [0,5]; (5,+∞)
+#        0         +5      原      5
+lst = [1, 2, 3, 4, 5]
+lst[-9:-8] = "9"
+print(lst)  # ['9', 1, 2, 3, 4, 5], [0,0) start=end
+lst = [1, 2, 3, 4, 5]
+lst[-5:-8] = "4"
+print(lst)  # ['4', 1, 2, 3, 4, 5], [0,0) start=end
+lst = [1, 2, 3, 4, 5]
+lst[1:-8] = "1"
+print(lst)  # [1, '1', 2, 3, 4, 5], [1,0) start>end
+lst = [1, 2, 3, 4, 5]
+lst[0:-8] = "6"
+print(lst)  # ['6', 1, 2, 3, 4, 5], [0,0) start=end
+lst = [1, 2, 3, 4, 5]
+lst[5:-8] = "6"
+print(lst)  # [1, 2, 3, 4, 5, '6'], [5,0) start>end
+lst = [1, 2, 3, 4, 5]
+lst[6:-8] = "6"
+print(lst)  # [1, 2, 3, 4, 5, '6'], [5,0) start>end
 
-lst[3:1] = 'new'    # 分片赋值时，i>j,缩放成[i:i]
-print(lst)          # [1, 2, 3, 'n', 'e', 'w', 4, 5]
+lst = [1, 2, 3, 4, 5]
+lst[-9:-4] = "6"
+print(lst)  # ['6', 2, 3, 4, 5], [0,1)
+lst = [1, 2, 3, 4, 5]
+lst[-5:-4] = "6"
+print(lst)  # ['6', 2, 3, 4, 5], [0,1)
+lst = [1, 2, 3, 4, 5]
+lst[1:-4] = "6"
+print(lst)  # [1, '6', 2, 3, 4, 5], [1,1) start=end
+lst = [1, 2, 3, 4, 5]
+lst[0:-4] = "6"
+print(lst)  # ['6', 2, 3, 4, 5], [0,1)
+lst = [1, 2, 3, 4, 5]
+lst[5:-4] = "6"
+print(lst)  # [1, 2, 3, 4, 5, '6'], [5,1) start>end
+lst = [1, 2, 3, 4, 5]
+lst[6:-4] = "6"
+print(lst)  # 1, 2, 3, 4, 5, '6'], [5,1) start>end
+
+lst = [1, 2, 3, 4, 5]
+lst[-9:0] = "6"
+print(lst)  # ['6', 1, 2, 3, 4, 5], [0,0) start=end
+lst = [1, 2, 3, 4, 5]
+lst[-5:0] = "6"
+print(lst)  # ['6', 1, 2, 3, 4, 5], [0,0) start=end
+
+lst = [1, 2, 3, 4, 5]
+lst[-9:5] = "6"
+print(lst)  # ['6'], [0,5)
+lst = [1, 2, 3, 4, 5]
+lst[-5:5] = "6"
+print(lst)  # ['6'], [0,5)
+lst = [1, 2, 3, 4, 5]
+lst[0:6] = "6"
+print(lst)  # ['6'], [0,5)
+lst = [1, 2, 3, 4, 5]
+lst[5:6] = "6"
+print(lst)  # [1, 2, 3, 4, 5, '6'], [5,5) start=end
+lst = [1, 2, 3, 4, 5]
+lst[7:6] = "6"
+print(lst)  # [1, 2, 3, 4, 5, '6'], [5,5) start=end
 
 print("------2.5--------\n")
 
