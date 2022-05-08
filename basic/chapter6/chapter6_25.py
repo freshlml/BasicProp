@@ -131,6 +131,7 @@ class C(One, Two):
 c = C()
 print(c.c)  # 实例
 print(c.attr)  # attr_t
+print(c.attr is T.attr)  # True
 print(c.mt())  # t
 print(c.mm("111 "))  # C 111 param2 ,方法搜索: 仅根据方法名称，而不管参数
 # print(c.mm2("111 "))  # TypeError: mm2() missing 1 required positional argument: 'param2'
