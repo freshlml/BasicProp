@@ -1,5 +1,3 @@
-# encoding: utf-8
-# basic py
 import sys
 
 vps = 'vps 中'
