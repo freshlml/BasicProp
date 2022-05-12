@@ -26,4 +26,24 @@ class B:
 b = B()
 # print(b[0])  # TypeError: __getitem__() takes 1 positional argument but 2 were given
 
-# todo,按需
+
+# __call__何时触发
+class C(object):
+
+    def __init__(self, param):
+        self.param = param
+
+    # 实例对象(...) 时触发
+    def __call__(self, *args):
+        print(args)
+
+
+print(type(C))  # class type
+c = C("构造")
+print(type(c))  # class C
+c("参数1", "参数2")  # 触发__call__
+
+
+
+
+

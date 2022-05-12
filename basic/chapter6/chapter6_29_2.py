@@ -53,8 +53,8 @@ class B(object):
 
 
 b = B(1)
-b.name = "任意"  # 翻译成b.name.__set__(b, "任意")
-print(b.name)  # 翻译成b.name.__get(b, b.__class__)
+b.name = "任意"  # 翻译成name.__set__(b, "任意")
+print(b.name)  # 翻译成name.__get__(b, b.__class__)
 print("---2----------------")
 
 
