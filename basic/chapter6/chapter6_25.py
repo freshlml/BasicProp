@@ -1,137 +1,97 @@
 
-class A(object):
-    a_attr = "a_attr"  # 类的属性
 
-    def __init__(self, attr):  # 初始化方法，类的实例对象构造后自动调用
-        self.attr = attr
+# python类，对象，继承模型,inherit_mode.uxf
+# 从实现上讲
+#   属性搜索(根据属性名称):  实例对象, 类(实例对象.__class__), 基类(类.__bases__)的从左到右深度优先
+#   方法搜索(仅根据方法名称): 类(实例对象.__class__), 基类(类.__bases__)的从左到右深度优先
+#          仅根据方法名称，参数无关
+# 如果要从继承的角度讲:
+#     实例对象 继承 类(对象), 类(对象) 继承 基类(对象)
+class T(object):
+    t_attr = "t_attr"  # 类属性，实例对象共享之
 
-    def mtd(self):
-        return self.attr
+    def __init__(self, t_sl_attr):  # 初始化方法，实例对象构造后调用
+        self.t_sl_attr = t_sl_attr
 
+    def t_mt1(self):
+        return self
 
-print(type(A))  # <class 'type'>
-print(dir(A))  # 'a_attr'
-A.clz_attr = "clz_attr"  # 为类添加属性
-print(dir(A))  # 'a_attr', 'clz_attr'
-print(A.clz_attr)  # clz_attr
-print(A.a_attr)  # a_attr
-# print(A.attr)  # AttributeError: type object 'A' has no attribute 'attr'
+    @staticmethod
+    def t_mt2():
+        return T.t_attr
 
-a = A("a1")  # 构造A类的实例对象
-print(type(a))  # <class '__main__.A'>
-print(dir(a))  # 'a_attr', 'attr', 'clz_attr'
-print(a.attr)  # a1 ,A类实例对象的属性
-print(a.a_attr)  # a_attr ,A类的属性，相当于A.a_attr
-print(a.clz_attr)  # clz_attr ,A类的属性
+    def mt(self, param):
+        print(param)
+        return self
 
-b = A("b1")  # 构造A类的实例对象
-print(dir(b))  # 'a_attr', 'attr', 'clz_attr'
-print(b.attr)  # b1
-print(b.a_attr)  # a_attr
-
-# 类的属性保存在类中，类的实例对象共享之
-A.a_attr = "a_attr修改"
-print(A.a_attr)  # a_attr修改
-print(a.a_attr)  # a_attr修改
-print(b.a_attr)  # a_attr修改
-
-# 实例a中定义和A同名的属性
-a.a_attr = "同名属性"
-print(dir(a))  # 'a_attr', 'attr', 'clz_attr'
-print(a.a_attr)  # "同名属性"
-print(A.a_attr)  # a_attr修改
-print(b.a_attr)  # a_attr修改
-
-
-print("------1-------------------------------------------")
-
-
-class Base1(object):
-    base1_attr = "base1_attr"
-
-    def __init__(self, attr):
-        self.attr = attr
-
-    def bs1(self):
+    def mt2(self):
+        print("mt2")
         return self
 
 
-class Base2(object):
-    base2_attr = "base2_attr"
-
-
-class B(Base1, Base2):
-    b_attr = "b_attr"
-
-
-print(type(Base1))  # <class 'type'>
-print(dir(Base1))  # 'base1_attr', 'bs1'
-
-print(type(Base2))  # <class 'type'>
-print(dir(Base2))  # 'base2_attr'
-
-print(type(B))  # <class 'type'>
-# 类B继承了基类Base1,Base2的属性和方法
-print(dir(B))  # 'b_attr', 'base1_attr', 'base2_attr', 'bs1'
-print(B.base1_attr)  # base1_attr
-print(B.base2_attr)  # base2_attr
-
-bb = B("bbb")  # 构造B类的实例对象, 会立马调用初始化方法，通过方法搜索将会调用基类Base1中__init__方法
-print(dir(bb))  # 'attr', 'b_attr', 'base1_attr', 'base2_attr', 'bs1'
-print(bb.attr)  # bbb
-print(bb.b_attr)  # b_attr
-print(bb.base2_attr)  # base2_attr
-Base1.base1_attr = "Base1修改base1_attr"
-print(bb.base1_attr)  # Base1修改base1_attr
-print(bb.bs1().attr)  # bbb
-
-
-# 属性搜索: 对象属性，类属性，基类(从左到右，深度优先)属性
-# 方法搜索: 类方法，基类(从左到右，深度优先)方法，注意方法搜索只看方法名(这和其他语言不一样，因为python中所谓的方法名和属性变量没有任何区别)
-class T(object):
-    attr = "attr_t"
-
-    def mt(self):
-        return "t"
+print(type(T))  # <class 'type'>, class语句执行，创建类，变量T指向class type类型的对象(即类)，这和def没有任何区别
+print(T.t_attr)  # t_attr, 获取类属性
+print(T.t_mt2())  # t_attr
+T.t_attr_1 = "添加属性"
+# ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__',
+#  '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__',
+#  '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__',
+#  '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 't_attr', 't_attr_1', 't_mt1', 't_mt2',]
+print(dir(T))
+b1_1 = T("b1_1")  # 构造T类的实例对象
+print(b1_1.t_sl_attr)  # b1_1
+b1_2 = T("b1_2")  # 构造T类的实例对象
+print(b1_2.t_sl_attr)  # b1_2
+# 类属性，实例对象共享之
+T.t_attr = "修改"
+print(T.t_attr)  # 修改
+print(b1_1.t_attr)  # 修改
+print(b1_2.t_attr)  # 修改
+print(b1_1.t_attr is T.t_attr)  # True
+# 实例对象中定义同名属性
+b1_1.t_attr = "b1_1"
+print(b1_1.t_attr)  # b1_1
+print(T.t_attr)  # 修改
+print(b1_2.t_attr)  # 修改
+print("-------1------------")
 
 
 class One(T):
-    o_attr = "attr_one"
+    one_attr = "one_attr"
 
-    def o_mt(self):
+    def __init__(self, one_sl_attr):
+        self.one_sl_attr = one_sl_attr
+
+    def one_mt1(self):
         return self
-
-    def mm(self, param):
-        return "one mm " + param
-
-    def mm2(self, param):
-        return "one mm2 " + param
 
 
 class Two(object):
-    attr = "attr_two"
+    two_attr = "two_attr"
+    two_attr_1 = "two_attr_1"
 
-    def mt(self):
-        return "two"
+    def __init__(self, two_sl_attr):
+        self.two_sl_attr = two_sl_attr
+
+    def two_mt1(self):
+        return self
+
+    def mt(self, param):
+        print("mt")
+        return self
+
+    def mt2(self, param):
+        print(param)
+        return self
 
 
-class C(One, Two):
-    c = "类"
-
-    def __init__(self):
-        self.c = "实例"
-
-    def mm(self, param, param2="param2"):
-        return "C " + param + param2
-
-    def mm2(self, param, param2):
-        return "mm2 " + param + param2
+class A(One, Two):
+    a_attr = "a_attr"
 
 
-c = C()
-print(c.c)  # 实例
-print(c.attr)  # attr_t
-print(c.attr is T.attr)  # True
-print(c.mt())  # t
-print(c.mm("111 "))  # C 111 param2 ,方法搜索: 仅根据方法名称，而不管参数
-# print(c.mm2("111 "))  # TypeError: mm2() missing 1 required positional argument: 'param2'
+a1 = A("参数")  # 构造A类实例对象对象，__init__方法搜到One的
+print(a1.one_sl_attr)  # 参数
+# print(a1.two_sl_attr)  # AttributeError: 'A' object has no attribute 'two_sl_attr'
+print(a1.a_attr)  # a_attr
+a1.mt("深度优先")  # 深度优先
+# a1.mt2("方法搜索和参数无关")  # TypeError: mt2() takes 1 positional argument but 2 were given
