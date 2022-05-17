@@ -57,7 +57,7 @@ def ArgCheck(**kargs):
                             pt = key_name in remain[1]
                         except Exception as e:
                             raise ArgCheckDefException("**定义错误: kwargs=(-100, 100, '**', ('args', 'kwargs')")
-                        if pt or key_name not in self.def_all_arg:
+                        if pt or key_name not in self.def_all_arg or self.def_all_arg.index(key_name) >= remain[2]:
                             Decorator.check(key_name, param_value, start, end)
                     key_param_tag = False
                 elif arg_name in kwargs:
@@ -71,12 +71,13 @@ def ArgCheck(**kargs):
     return Decorator
 
 
-@ArgCheck(a=(-100, 100), b=(-100, 100), c=(-100, 100), d=(-100, 100), args=(-100, 100, '*', 'b'), kwargs=(-100, 100, '**', ('args', 'kwargs')))
+@ArgCheck(a=(-100, 100), b=(-100, 100), c=(-100, 100), d=(-100, 100), args=(-100, 100, '*', 'b'), kwargs=(-100, 100, '**', ('args', 'kwargs'), 6))
 def m1(a, b, *args, c, d, **kwargs):
+    lp = "lp"
     pass
 
 
-m1(0, 0, 0, 0, c=0, d=5, args=6, kwargs=0, ke=0)
+m1(0, 0, 0, 0, c=0, d=5, args=6, kwargs=0, ke=0, lp=100000)
 m1(0, 0, c=0, d=5, args=6, kwargs=0, ke=0)
 
 
