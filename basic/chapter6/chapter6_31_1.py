@@ -1,116 +1,198 @@
 
 
-class ArgCheckDefException(Exception):
+# 函数调用传参校验，@link chapter4_8
+class ArgCheckException(Exception):
     pass
 
 
-class ArgCheckException(Exception):
-
-    def __init__(self, start, end, p, v, *args):
+class ArgCheckRangeException(ArgCheckException):
+    def __init__(self, start, end, n, v, *args):
         self.start = start
         self.end = end
-        self.p = p
+        self.n = n
         self.v = v
         Exception.__init__(self, *args)
 
     def __str__(self):
-        return Exception.__str__(self) + ": [" + str(self.start) + ", " + str(self.end) + "], " + str(self.p) + "=" + str(self.v)
+        return Exception.__str__(self) + ": [" + str(self.start) + ", " + str(self.end) + "], " + str(self.n) + "=" + str(self.v)
 
 
-def ArgCheck(**kargs):
-    class Decorator(object):
-        def __init__(self, original):
-            self.original = original
-            code = original.__code__
-            self.def_all_arg = list(code.co_varnames)
-            self.def_pos_arg = list(code.co_varnames[:code.co_argcount])
+class ArgCheckNoneException(ArgCheckException):
+    def __init__(self, n, v, *args):
+        self.n = n
+        self.v = v
+        Exception.__init__(self, *args)
 
-        @staticmethod
-        def check(param_name, param, start, end):
-            try:
-                # print(11.9999999999999 == 11.9999999999998999994)  # True, 浮点数运算本身问题
-                if param < end and param >= start:
-                    return
-            except Exception as e:
-                raise e
+    def __str__(self):
+        return Exception.__str__(self) + ": " + str(self.n) + "=" + str(self.v)
 
-            raise ArgCheckException(start, end, param_name, param, "参数范围不合法")
 
-        def __call__(self, *args, **kwargs):
-            pos_param_tag = True
-            key_param_tag = True
-            for (arg_name, (start, end, *remain)) in Decorator.kwargs.items():
-                if remain and len(remain) > 0 and remain[0] == '*' and pos_param_tag:
+class Check(object):
+    pass
+
+
+class RangeCheck(Check):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+    def __call__(self, param_name, *param_values):
+        self.param_name = param_name
+        for value in param_values:
+            self.check(value)
+
+    def check(self, value):
+        try:
+            # print(11.9999999999999 == 11.9999999999998999994)  # True, 浮点数运算本身问题
+            if value < self.end and value >= self.start:
+                return
+        except Exception as e:
+            raise e
+
+        raise ArgCheckRangeException(self.start, self.end, self.param_name, value, "参数范围不合法")
+
+
+def NothingCheck():
+    def check(param_name, *param_values):
+        pass
+    return check
+
+
+def NoneCheck():
+    def check(param_name, *param_values):
+        for value in param_values:
+            if value is None:
+                raise ArgCheckNoneException(param_name, value, "参数不能为空")
+    return check
+
+
+def ArgCheck(*exclude, **regulars):
+    def Decorator(original):
+        code = original.__code__
+        def_pos_args = code.co_varnames[:code.co_argcount]
+        original_name = original.__name__
+
+        def onCheck(*args, **kwargs):
+            posChecker = None
+            remaindKeysChecker = None
+            not_contains = None
+            for v in regulars.values():
+                try:
+                    if '*' in v:
+                        posChecker = v[0]
+                    elif '**' in v:
+                        remaindKeysChecker = v[0]
+                        not_contains = v[2]
+                except Exception:
+                    pass
+            # check位置参数
+            pos_i = 0
+            for pos_param_value in args:
+                if pos_i < len(def_pos_args):
+                    pos_param_name = def_pos_args[pos_i]
                     try:
-                        args_i = self.def_pos_arg.index(remain[1])
-                    except ValueError as e:
-                        raise ArgCheckDefException("*定义错误: args=(-100, 100, '*', 'pos')")
+                        checker = regulars[pos_param_name]
+                    except KeyError:
+                        pass
                     else:
-                        args_i = args_i + 1
-                        while args_i < len(args):
-                            Decorator.check("position[" + str(args_i) + "]", args[args_i], start, end)
-                            args_i = args_i + 1
-                    pos_param_tag = False
-                elif remain and len(remain) > 0 and remain[0] == '**' and key_param_tag:
-                    for (key_name, param_value) in kwargs.items():
-                        try:
-                            pt = key_name in remain[1]
-                        except Exception as e:
-                            raise ArgCheckDefException("**定义错误: kwargs=(-100, 100, '**', ('args', 'kwargs')")
-                        if pt or key_name not in self.def_all_arg or self.def_all_arg.index(key_name) >= remain[2]:
-                            Decorator.check(key_name, param_value, start, end)
-                    key_param_tag = False
-                elif arg_name in kwargs:
-                    Decorator.check(arg_name, kwargs[arg_name], start, end)
-                elif arg_name in self.def_pos_arg:
-                    Decorator.check(arg_name, args[self.def_pos_arg.index(arg_name)], start, end)
+                        if checker is not None:
+                            checker(pos_param_name, pos_param_value)
+                    pos_i = pos_i + 1
                 else:
-                    raise ArgCheckDefException("ArgCheck定义异常")
+                    if posChecker is not None:
+                        posChecker(pos_param_name, pos_param_value)
+            # check关键字参数
+            for param_name, param_value in kwargs.items():
+                if param_name in exclude:
+                    try:
+                        checker = regulars[param_name]
+                    except KeyError:
+                        pass
+                    else:
+                        if checker is not None:
+                            checker(param_name, param_value)
+                    continue
+                elif len(exclude) > 0:
+                    if remaindKeysChecker is not None:
+                        remaindKeysChecker(param_name, param_value)
+                    continue
 
-    Decorator.kwargs = kargs
+                try:
+                    checker = regulars[param_name]
+                except KeyError:
+                    checker = None
+                if checker is None:
+                    if remaindKeysChecker is not None:
+                        if not_contains is None:
+                            remaindKeysChecker(param_name, param_value)
+                        elif param_name not in not_contains:
+                            remaindKeysChecker(param_name, param_value)
+                else:
+                    try:
+                        if '**' in checker or "*" in checker:
+                            pass
+                    except Exception:
+                        checker(param_name, param_value)
+                    else:
+                        if remaindKeysChecker is not None:
+                            remaindKeysChecker(param_name, param_value)
+
+            return original(*args, **kwargs)
+
+        onCheck.original = original
+        return onCheck
+
     return Decorator
 
 
-@ArgCheck(a=(-100, 100), b=(-100, 100), c=(-100, 100), d=(-100, 100), args=(-100, 100, '*', 'b'), kwargs=(-100, 100, '**', ('args', 'kwargs'), 6))
-def m1(a, b, *args, c, d, **kwargs):
+'''
+@ArgCheck(a=RangeCheck(-100, 100),  # 每一个参数都定义，不校验的指定为NothingCheck(),不要设置为None
+          f=NoneCheck(),
+          ff=NothingCheck(),
+          b=RangeCheck(-100, 100),
+          c=RangeCheck(-100, 100),
+          d=RangeCheck(-100, 100),
+          e=NothingCheck(),
+          ee=NothingCheck(),
+          args=(RangeCheck(-100, 100), "*"),
+          kwargs=(RangeCheck(-10, 10), '**'))
+'''
+
+
+'''
+@ArgCheck('a', 'f', 'ff', 'b', 'c', 'd', 'ee',
+          a=RangeCheck(-100, 100),  # 不校验的参数可以不定义，checker可以设置为None, 增加exclude参数
+          f=NoneCheck(),
+          # ff
+          b=RangeCheck(-100, 100),
+          c=RangeCheck(-100, 100),
+          d=RangeCheck(-100, 100),
+          e=NothingCheck(),
+          # ee
+          args=(RangeCheck(-100, 100), "*"),
+          kwargs=(RangeCheck(-10, 10), '**'))
+'''
+
+
+@ArgCheck(a=RangeCheck(-100, 100),  # 不校验的参数如果不定义，则要将之放到**中，checker不要设置为None
+          f=NoneCheck(),
+          # ff
+          b=RangeCheck(-100, 100),
+          c=RangeCheck(-100, 100),
+          d=RangeCheck(-100, 100),
+          e=NothingCheck(),
+          # ee
+          args=(RangeCheck(-100, 100), "*"),
+          kwargs=(RangeCheck(-10, 10), '**', ('ff', 'ee')))
+def m1(a, f, ff, b=1000, *args, c=1000, d, e, ee, **kwargs):
     lp = "lp"
-    pass
+    print("m1 run...")
 
 
-m1(0, 0, 0, 0, c=0, d=5, args=6, kwargs=0, ke=0, lp=100000)
-m1(0, 0, c=0, d=5, args=6, kwargs=0, ke=0)
+ori = m1.original
+print(ori.__code__.co_varnames)  # ('a', 'f', 'ff', 'b', 'c', 'd', 'e', 'ee', 'args', 'kwargs', 'lp')
+print(ori.__code__.co_varnames[:ori.__code__.co_argcount])  # ('a', 'f', 'ff', 'b')
 
 
-@ArgCheck(a=(-10, 10), b=(-10, 10))
-def m2(a, b):
-    pass
-
-
-m2(1, 2)
-m2(1, b=2)
-m2(b=2, a=1)
-print("--------------")
-
-
-# 函数参数分析
-def md(a, b, *args, c, d, **kwargs):
-    pass
-
-
-# 1.反射/内省
-md_code = md.__code__
-print(md_code.co_varnames)  # ('a', 'b', 'c', 'd', 'args', 'kwargs'),可以得到参数名称, args，kwargs没有特别的标记不能通过args得到函数定义中的该参数的下标
-print(md_code.co_varnames[:md_code.co_argcount])  # ('a', 'b'), 仅得到位置参数
-
-# 2.函数调用传参分析
-#   __call__(*args, **kwargs)
-#
-#   md中c,d只能是保存在kwargs中，kwargs['c']取值
-#   md中a,b要么在kwargs中或者args中, kwargs['c']取值 或者 i = md.__code__.co_varnames[:md_code.co_argcount].index('a'), args[i]
-#   md中args: 需要知道剩余的位置参数的开始下标
-#   md中kwargs: kwargs中的关键字参数, not in md.__code__.co_varnames || == md中定义的'args' || == md中定义的'kwargs'
-md(0, 1, 2, 3, c='c', d='d', args="args", kwargs='kwargs')
-
-
-
+m1(1, 1, 1000, 10, 1, 2, 3, 0, d=1, e=2, ee=-11, args=-10, kwargs=1, t=1)
 
