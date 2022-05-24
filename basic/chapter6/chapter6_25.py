@@ -3,8 +3,10 @@
 # python类，对象，继承模型,inherit_mode.uxf
 # 从实现上讲
 #   属性搜索(根据属性名称):  实例对象, 类(实例对象.__class__), 基类(类.__bases__)的从左到右深度优先
-#   方法搜索(仅根据方法名称): 类(实例对象.__class__), 基类(类.__bases__)的从左到右深度优先
+#   方法搜索(仅根据方法名称): [实例对象], 类(实例对象.__class__), 基类(类.__bases__)的从左到右深度优先
 #          仅根据方法名称，参数无关
+#          是否将自己作为第一个参数(self约定): 从__class__及以上搜索到的，都会将自己作为第一个参数，如T类，T.t_mt1()在T类搜索到，不会将自己作为第一个参数
+#          协议方法: __call__协议方法，__getattr__协议方法等，从__class__开始搜索
 # 如果要从继承的角度讲:
 #     实例对象 继承 类(对象), 类(对象) 继承 基类(对象)
 class T(object):
@@ -26,6 +28,14 @@ class T(object):
 
     def mt2(self):
         print("mt2")
+        return self
+
+    def mt3(self):
+        print("mt3")
+        return self
+
+    def __call__(self):
+        print("__call__")
         return self
 
 
@@ -53,6 +63,18 @@ b1_1.t_attr = "b1_1"
 print(b1_1.t_attr)  # b1_1
 print(T.t_attr)  # 修改
 print(b1_2.t_attr)  # 修改
+
+
+def __call__():
+    print("mt3-1")
+
+
+b1_1.__call__ = __call__  # 在实例对象上协议方法
+b1_1.mt3 = lambda: print(1)
+b1_1()
+b1_1.mt3()
+
+
 print("-------1------------")
 
 

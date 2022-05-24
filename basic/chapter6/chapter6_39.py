@@ -88,7 +88,7 @@ class Spam(object, metaclass=SpamMeta):
         print("Spam __call__")
 
     # tag3:
-    # SpamMeta是class type类型, __call__(SpamMeta, 'Spam', bases, attribute_dict)
+    # SpamMeta的__class__指向class type, __call__(SpamMeta, 'Spam', bases, attribute_dict)
     # Spam = SpamMeta('Spam', bases, attribute_dict)
 
 
@@ -105,8 +105,6 @@ print(spam.tag, spam.param)  # tag param
 
 
 # 类的类型是其元类，元类的类型是其元类, 最上层元类的类型是class type
-# 实例对象，类(包括 元类，type类)调用时，触发其类型的__call__并将自身作为第一个参数传过去
-# 实例对象调用非静态方法自身作为第一个参数，类(包括 元类，type类)不会
 # 类class执行: 元类的元类的__call__, 元类的__new__,__init__
 # 类的实例对象: 元类的__call__
 
