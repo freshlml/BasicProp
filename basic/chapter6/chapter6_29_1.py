@@ -6,27 +6,26 @@ class Lst:
     def __getitem__(self, item):
         # 分片取值代码逻辑
         if type(item) == slice:
-            if item.start >= self.lss:
-                return "取不到"
-            elif item.start >= 0:
-                s = item.start
-            elif item.start >= -self.lss:
+            if item.start < 0:
                 s = item.start + self.lss
+                if s < 0:
+                    s = 0
+            elif item.start <= self.lss:
+                s = item.start
             else:
-                s = 0
+                s = self.lss
 
-            if item.stop <= -self.lss:
-                return "取不到"
-            elif item.stop < 0:
+            if item.stop < 0:
                 e = item.stop + self.lss
+                if e < 0:
+                    e = 0
             elif item.stop <= self.lss:
                 e = item.stop
             else:
                 e = self.lss
 
             if s >= e:
-                return "取不到:start>=end"
-
+                return "取不到"
             return s, e
         else:
             # 索引取值，判断下标是否超界
@@ -37,28 +36,28 @@ class Lst:
     def __setitem__(self, key, value):
         # 分片赋值代码逻辑
         if type(key) == slice:
-            if key.start >= self.lss:
-                s = self.lss
-            elif key.start >= 0:
-                s = key.start
-            elif key.start >= -self.lss:
+            if key.start < 0:
                 s = key.start + self.lss
+                if s < 0:
+                    s = 0
+            elif key.start <= self.lss:
+                s = key.start
             else:
-                s = 0
+                s = self.lss
 
-            if key.stop <= -self.lss:
-                e = 0
-            elif key.stop < 0:
+            if key.stop < 0:
                 e = key.stop + self.lss
+                if e < 0:
+                    e = 0
             elif key.stop <= self.lss:
                 e = key.stop
             else:
                 e = self.lss
 
             if s >= e:
-                print(s, " insert", ", start>=end", sep="", end="\n")
+                print(s, " insert", sep="", end="\n")
             else:
-                print("[", s, ":", e, "]", "=", value, sep="", end="\n")
+                print("[", s, ",", e, ")", " iterable(", value, ")", sep="", end="\n")
         else:
             # 索引赋值，判断下标是否超界
             if key < -self.lss or key >= self.lss:
@@ -79,69 +78,68 @@ lst[1] = 1  # [1]=1
 print("----------------1---------------------")
 
 # 分片取值
-print(lst[-10:-8])  # , 取不到:stop=-8<=-5
-print(lst[-5:-8])  # , 取不到:stop=-8<=-5
-print(lst[-2:-8])  # , 取不到:stop=-8<=-5
-print(lst[0:-8])  # , 取不到:stop=-8<=-5
-print(lst[3:-8])  # , 取不到:stop=-8<=-5
-print(lst[5:-8])  # , 取不到:stop=-8<=-5
-print(lst[7:-8])  # , 取不到:stop=-8<=-5
-print(lst[7:-5])  # , 取不到:stop=-5<=-5
+print(lst[-10:-8])  # 取不到, [0:0]
+print(lst[-5:-8])  # 取不到,  [0:0]
+print(lst[-2:-8])  # 取不到,  [3:0]
+print(lst[0:-8])  # 取不到,   [0:0]
+print(lst[3:-8])  # 取不到,   [3:0]
+print(lst[5:-8])  # 取不到,   [5:3]
+print(lst[7:-8])  # 取不到,   [5:3]
+print(lst[7:-5])  # 取不到,   [5:0]
 
-print(lst[-6:-2])  # , [0,3)
-print(lst[-5:-2])  # , [0,3)
-print(lst[-2:-2])  # , [3,3) 取不到:start>=end
-print(lst[-4:-2])  # , [1,3)
-print(lst[0:-2])  # , [0,3)
-print(lst[1:-2])  # , [1,3)
-print(lst[3:-2])  # , [3,3) 取不到:start>=end
-print(lst[5:-2])  # , 取不到:start=5>=5
-print(lst[6:-2])  # , 取不到:start=6>=5
+print(lst[-6:-2])  # (0, 3), [0:3]
+print(lst[-5:-2])  # (0, 3), [0:3]
+print(lst[-2:-2])  # 取不到, [3:3]
+print(lst[-4:-2])  # (1, 3), [1:3]
+print(lst[0:-2])  # (0, 3),  [0:3]
+print(lst[1:-2])  # (1, 3),  [1:3]
+print(lst[3:-2])  # 取不到,  [3:3]
+print(lst[5:-2])  # 取不到,  [5:3]
+print(lst[6:-2])  # 取不到,  [5:3]
 
-print(lst[1:0])  # [], 取不到:start>=end
+print(lst[1:0])  # 取不到, [1:0]
 
-print(lst[-6:3])  # , [0,3)
-print(lst[-5:3])  # , [0,3)
-print(lst[-1:3])  # , [4,3) 取不到:start>=end
-print(lst[-4:3])  # , [1,3)
-print(lst[0:3])  # , [0,3)
-print(lst[1:3])  # , [1,3)
-print(lst[3:3])  # , [3,3) 取不到:start>=end
-print(lst[5:3])  # , 取不到:start=5>=5
-print(lst[6:3])  # , 取不到:start=6>=5
+print(lst[-6:3])  # (0, 3), [0:3]
+print(lst[-5:3])  # (0, 3), [0:3]
+print(lst[-1:3])  # 取不到, [4:3]
+print(lst[-4:3])  # (1, 3), [1:3]
+print(lst[0:3])  # (0, 3),  [0:3]
+print(lst[1:3])  # (1, 3),  [1:3]
+print(lst[3:3])  # 取不到,  [3:3]
+print(lst[5:3])  # 取不到,  [5:3]
+print(lst[6:3])  # 取不到,  [5:3]
 
-print(lst[-6:7])  # , [0,5)
-print(lst[-5:7])  # , [0,5)
-print(lst[-1:7])  # , [4,5)
-print(lst[-4:7])  # , [1,5)
-print(lst[0:7])  # , [0,5)
-print(lst[1:7])  # , [1,5)
-print(lst[6:7])  # [], 取不到:start=6>=5
-print(lst[7:7])  # [], 取不到:start=7>=5
+print(lst[-6:7])  # (0, 5), [0:5]
+print(lst[-5:7])  # (0, 5), [0:5]
+print(lst[-1:7])  # (4, 5), [4:5]
+print(lst[-4:7])  # (1, 5), [1:5]
+print(lst[0:7])  # (0, 5),  [0:5]
+print(lst[1:7])  # (1, 5),  [1:5]
+print(lst[6:7])  # 取不到,  [5:5]
+print(lst[7:7])  # 取不到,  [5:5]
 
 print("----------------2---------------------")
 
 # 分片赋值
-lst[-9:-8] = "9"  # , [0,0) start=end
-lst[-5:-8] = "4"  # , [0,0) start=end
-lst[1:-8] = "1"  # , [1,0) start>end
-lst[0:-8] = "6"  # , [0,0) start=end
-lst[5:-8] = "6"  # , [5,0) start>end
-lst[6:-8] = "6"  # , [5,0) start>end
+lst[-9:-8] = "9"  # 0 insert, [0:0]
+lst[-5:-8] = "4"  # 0 insert, [0:0]
+lst[1:-8] = "1"  # 1 insert,  [1:0]
+lst[0:-8] = "6"  # 0 insert,  [0:0]
+lst[5:-8] = "6"  # 5 insert,  [5:0]
 
-lst[-9:-4] = "6"  # , [0,1)
-lst[-5:-4] = "6"  # , [0,1)
-lst[1:-4] = "6"  # , [1,1) start=end
-lst[0:-4] = "6"  # , [0,1)
-lst[5:-4] = "6"  # , [5,1) start>end
-lst[6:-4] = "6"  # , [5,1) start>end
+lst[-9:-4] = "6"  # [0,1) iterable(6), [0:1]
+lst[-5:-4] = "6"  # [0,1) iterable(6), [0:1]
+lst[1:-4] = "6"  # 1 insert,  [1:1]
+lst[0:-4] = "6"  # [0,1) iterable(6),  [0:1]
+lst[5:-4] = "6"  # 5 insert,  [5:1]
+lst[6:-4] = "6"  # 5 insert,  [5:1]
 
-lst[-9:0] = "6"  # , [0,0) start=end
-lst[-5:0] = "6"  # , [0,0) start=end
+lst[-9:0] = "6"  # 0 insert, [0:0]
+lst[-5:0] = "6"  # 0 insert, [0:0]
 
-lst[-9:5] = "6"  # , [0,5)
-lst[-5:5] = "6"  # , [0,5)
-lst[0:6] = "6"  # , [0,5)
-lst[5:6] = "6"  # , [5,5) start=end
-lst[7:6] = "6"  # , [5,5) start=end
+lst[-9:5] = "6"  # [0,5) iterable(6), [0:5]
+lst[-5:5] = "6"  # [0,5) iterable(6), [0:5]
+lst[0:6] = "6"  # [0,5) iterable(6),  [0:5]
+lst[5:6] = "6"  # 5 insert,  [5:5]
+lst[7:6] = "6"  # 5 insert,  [5:5]
 
