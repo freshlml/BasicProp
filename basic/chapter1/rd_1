@@ -29,7 +29,7 @@
     5、数据库接口
        主流数据库，MySql,Oracle,PostgreSql...
     6、数值计算 && 科学计算
-       完美替代Matlab
+       NumPy, SciPy等库，完美替代Matlab
     7、游戏、图像、人工智能、机器人等领域
 
 
