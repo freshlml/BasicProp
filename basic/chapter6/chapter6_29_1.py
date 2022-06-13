@@ -6,6 +6,15 @@ class Lst:
     def __getitem__(self, item):
         # 分片取值代码逻辑
         if type(item) == slice:
+            ''' 拉和翻转逻辑
+            s = self.start
+            if s < -self.lss:
+                s = -self.lss
+            if s < 0:
+                s = s + self.lss    
+            if s > self.lss:
+                s = self.lss
+            '''
             if item.start < 0:
                 s = item.start + self.lss
                 if s < 0:
