@@ -1,6 +1,6 @@
 
 # 1、相对路径和绝对路径
-# 相对路径: 相对于当前执行的py文件所在的路径
+# 相对路径: 相对于当前执行的py文件所在的package(top level package)
 # 绝对路径: linux中，/dir/**/*
 #   win中，C:\dir\**\*
 
