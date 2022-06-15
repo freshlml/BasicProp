@@ -12,7 +12,7 @@
 class T(object):
     t_attr = "t_attr"  # 类属性，实例对象共享之
 
-    def __init__(self, t_sl_attr):  # 初始化方法，实例对象构造后调用
+    def __init__(self, t_sl_attr):  # 初始化方法，构造T类实例对象后调用
         self.t_sl_attr = t_sl_attr
 
     def t_mt1(self):
@@ -39,8 +39,8 @@ class T(object):
         return self
 
 
-print(type(T))  # <class 'type'>, class语句执行，创建类，变量T指向class type类型的对象(即类)，这和def没有任何区别
-print(T.t_attr)  # t_attr, 获取类属性
+print(type(T))  # <class 'type'>, class语句执行，创建T类，T__class__=class type(变量T指向T类对象，T类对象的类型是class type)
+print(T.t_attr)  # t_attr
 print(T.t_mt2())  # t_attr
 T.t_attr_1 = "添加属性"
 # ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__',
@@ -69,10 +69,10 @@ def __call__():
     print("mt3-1")
 
 
-b1_1.__call__ = __call__  # 在实例对象上协议方法
+b1_1.__call__ = __call__  # 实例对象上设置协议方法
 b1_1.mt3 = lambda: print(1)
-b1_1()
-b1_1.mt3()
+b1_1()   # __call__
+b1_1.mt3()  # 1
 
 
 print("-------1------------")
@@ -111,7 +111,7 @@ class A(One, Two):
     a_attr = "a_attr"
 
 
-a1 = A("参数")  # 构造A类实例对象对象，__init__方法搜到One的
+a1 = A("参数")  # 构造A类实例对象，__init__方法搜到One的
 print(a1.one_sl_attr)  # 参数
 # print(a1.two_sl_attr)  # AttributeError: 'A' object has no attribute 'two_sl_attr'
 print(a1.a_attr)  # a_attr

@@ -1,6 +1,6 @@
 
 
-# 类中方法定义第一个参数self只是一种约定，约定self是当前类的实例对象
+# 类中方法定义第一个参数self只是一种约定，约定self是当前类(或子类)的实例对象
 class A(object):
 
     def m(param):  # 第一个参数不写成self
@@ -9,11 +9,11 @@ class A(object):
 
 print(A.m("123"))  # 123
 a = A()
-print(a.m())  # <__main__.A object at 0x000001A62C68FDA0>, A.m(a)
+print(a.m())  # <__main__.A object at 0x000001A62C68FDA0>, a作为第一个参数传给param
 
 
-# 类中方法定义按照约定，第一个参数应该定义成self，并且self约定为当前类的实例对象
-# python中有静态方法的概念: 使实例对象调用时不会把自身作为参数
+# 类中方法定义按照约定，第一个参数应该定义成self，并且self约定为当前类(或子类)的实例对象
+# python中有静态方法的概念: 使实例对象调用时不会把自身作为第一个参数
 class B(object):
     attr = 1
 
@@ -26,7 +26,7 @@ class B(object):
 print(B.m("参数"))  # 参数, 类调用静态方法
 print(B.attr)  # 2
 b = B()
-print(b.m("参数2"))  # 参数2, B.m("参数2"), 不会把实例对象b作为参数
+print(b.m("参数2"))  # 参数2, B.m("参数2"), 不会把实例对象b作为第一个参数
 print(B.attr)  # 3
 
 
