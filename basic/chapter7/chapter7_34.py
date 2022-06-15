@@ -1,9 +1,9 @@
 
-
 # 异常基类BaseException,Exception
 # Exception类中__init__(self, *args, *kwargs)
 # BaseException类中__str__(self, *args, **kwargs)
-# 内置异常类，内置异常类的继承结构
+# todo,内置异常类，内置异常类的继承结构
+
 
 class Exp(Exception):
 
