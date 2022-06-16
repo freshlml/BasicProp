@@ -1,5 +1,6 @@
 
 
+# python 类，对象, inherit_mode.uxf
 class T(object):
 
     def __init__(self, t_sl_attr):
