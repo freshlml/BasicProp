@@ -14,7 +14,9 @@ print(isinstance(A, Iterable))  # False, 参数定义不一致???
 #    pass
 
 
-# __call__协议方法的触发
+# __call__协议方法
+# 触发与搜索规则: 对象(...)，触发__call__协议方法，被触发的协议方法从对象.__class__的mro路径中搜索
+# (显示)调用协议方法，搜索规则和普通方法一致
 class C(object):
 
     def __init__(self, param):

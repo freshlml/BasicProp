@@ -27,7 +27,7 @@ a.name = "任意"  # 1.a.name = "任意": 找到A类的name属性；2.翻译成a
 print(a.name)  # "任意", 1.a.name: 找到A类的name属性；2.翻译成a.get_name()
 del a.name  # 1.del a.name: 找到A类的name属性；2.翻译成a.set_name()
 print(a.name)  # None
-print("---1----------------")
+print("--------------1----------------")
 
 
 # 属性管理: 描述符协议class Descriptor
