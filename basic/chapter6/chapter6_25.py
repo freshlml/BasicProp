@@ -35,7 +35,10 @@ class A(One, Two):
 
 
 print(A.mro())  # A One T Two object
-a = A("参数")  # 构造A类实例对象，调用__init__方法: a.__init__("参数")方法搜到One的
+# python中，可以从两个角度理解如下语句
+# 1. 面向对象角度: 构造A类的实例对象并调用A.__init__方法
+# 2. python的机制角度: __call__协议方法
+a = A("参数")  # A.__init__方法搜到One的
 print(a.one_sl_attr)  # 参数
 # print(a.two_sl_attr)  # AttributeError: 'A' object has no attribute 'two_sl_attr'
 # print(a.t_sl_attr)  # AttributeError: 'A' object has no attribute 't_sl_attr'
