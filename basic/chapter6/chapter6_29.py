@@ -2,46 +2,32 @@ from collections.abc import Iterable
 from collections.abc import Iterator
 
 
-# 运算符重载
-# 协议方法def __iter__(self)，看方法名称+参数
+# __iter__协议方法: def __iter__(self)
 class A:
     def __iter__(self, aa):
         pass
 
 
-print(isinstance(A, Iterable))  # False
+# 协议方法: 方法名称+参数, 协议方法隐式触发，则需要有比较固定的参数形式，eg: def 协议方法名称(*args)这样的协议方法定义，则是参数无关的
+print(isinstance(A, Iterable))  # False, 参数定义不一致???
 # for x in A():  # TypeError: __iter__() missing 1 required positional argument: 'aa'
 #    pass
 
 
-class B:
-
-    # def __getitem__(self, item):
-    #    return item
-
-    def __getitem__(self):
-        return "other"
-
-
-b = B()
-# print(b[0])  # TypeError: __getitem__() takes 1 positional argument but 2 were given
-
-
-# __call__何时触发
+# __call__协议方法的触发
 class C(object):
 
     def __init__(self, param):
         self.param = param
 
-    # 实例对象(...) 时触发
     def __call__(self, *args):
         print(args)
 
 
-print(type(C))  # class type
 c = C("构造")
-print(type(c))  # class C
-c("参数1", "参数2")  # 触发__call__
+C.__call__(c, "显示调用__call__")  # ('显示调用__call__',)
+c.__call__("显示调用__call__")  # ('显示调用__call__',)
+c("隐式触发__call__")   # ('隐式触发__call__',)
 
 
 
