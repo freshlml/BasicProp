@@ -79,21 +79,17 @@ A.m(None)         # e_m, 在A类上搜索方法, A类的mro路径 + (A类作为�
 A.m1()           # a_meta_m, 在A类上调用方法的self约定: (A类作为实例对象)A.__class__的mro路径 中搜索到的方法将自身作为第一个参数
 print("------------1------------")
 # python中，可以从两个角度理解如下语句
-# 1. 面向对象角度: 构造A类的实例对象并调用A.__init__方法
-# 2. python的机制角度: __call__协议方法
-a = A()        # a_meta_call, 对A类的调用，__call__协议方法，从(A类作为实例对象)A.__class__的mro路径 中搜索
+# 1. 面向对象角度: 构造A类的实例对象并显示调用A.__init__协议方法
+# 2. python机制角度: 隐式触发__call__协议方法
+a = A()        # a_meta_call, 对A类的调用隐式触发__call__协议方法，从(A类作为实例对象)A.__class__的mro路径 中搜索
+A.__call__(None)  # e_call, A类显示调用__call__协议方法，和普通方法搜索规则一致
 print(a.attr)  # e, A类的实例对象上搜索属性, 实例对象 + 实例对象.__class__的mro路径
 a.m()          # 1, A类的实例对象上搜索方法, 实例对象 + 实例对象.__class__的mro路径
 print()        # ,  A类的实例对象上调用方法的self约定: 实例对象.__class__的mro路径 中搜索到的方法将自身作为第一个参数
-a.__call__ = lambda self, *args: print("a_call")
-a()            # e_call, A类的实例对象的调用，__call__协议方法，从实例对象.__class__的mro路径 中搜索
+a.__call__ = lambda *args: print("a_call")
+a()            # e_call, A类的实例对象的调用隐式触发__call__协议方法，从实例对象.__class__的mro路径 中搜索
+a.__call__()   # a_call, A类的实例对象显示嗲用__call__协议方法
 print("------------2------------")
-a2 = A()
-A.__init__(a2)  # __init__方法的搜索和普通方法一样: A类的mro路径 + (A类作为实例对象)A.__class__的mro路径
-a2.__init__ = lambda self: print("a2_init")
-a2.__init__(None)  # a2_init, __init__方法的搜索和普通方法一样: 实例对象 + 实例对象.__class__的mro路径
-
-print("#####################")
 
 
 class F(object):
