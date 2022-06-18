@@ -158,9 +158,9 @@ def ArgCheck(*exclude, **regulars):
           kwargs=(RangeCheck(-10, 10), '**'))
 '''
 
-
+# todo, 又没有可能通过反射得到exclude
 '''
-@ArgCheck('a', 'f', 'ff', 'b', 'c', 'd', 'ee',
+@ArgCheck('a', 'f', 'ff', 'b', 'c', 'd', 'ee', 
           a=RangeCheck(-100, 100),  # 不校验的参数可以不定义，checker可以设置为None, 增加exclude参数
           f=NoneCheck(),
           # ff
