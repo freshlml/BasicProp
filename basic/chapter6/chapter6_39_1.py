@@ -64,7 +64,7 @@ Singleton.instance = "2"
 del Singleton.instance
 Singleton.instance = "3"
 Singleton.i = "111"
-print(dir(Singleton))  # 'getInstance', 'i'
+print(dir(Singleton))  # 'getInstance', 'i', 'instance'
 
 s1 = Singleton()
 print(dir(s1))  # 'getInstance', 'i', 'instance'
