@@ -78,9 +78,11 @@ print(A.attr1)   # a_meta
 A.m(None)         # e_m, 在A类上搜索方法, A类的mro路径 + (A类作为实例对象)A.__class__的mro路径
 A.m1()           # a_meta_m, 在A类上调用方法的self约定: (A类作为实例对象)A.__class__的mro路径 中搜索到的方法将自身作为第一个参数
 print("------------1------------")
-# python中，可以从两个角度理解如下语句
-# 1. 面向对象角度: 构造A类的实例对象并(显示)调用A.__init__协议方法
-# 2. python机制角度: (隐式)触发__call__协议方法
+# 调用A，触发__call__协议方法，在A.__class__的mro路径中搜索，搜到AMeta中__call__
+#   1.AMeta的__call__中代码逻辑
+#   2.总会委托给class type,从而
+#      1).构造A类的实例对象
+#      2).调用A.__init__方法
 a = A()        # a_meta_call, (隐式)触发__call__协议方法，从A.__class__的mro路径 中搜索
 A.__call__(None)  # e_call, A类(显示)调用__call__协议方法，和普通方法搜索规则一致
 print(a.attr)  # e, A类的实例对象上搜索属性, 实例对象 + 实例对象.__class__的mro路径

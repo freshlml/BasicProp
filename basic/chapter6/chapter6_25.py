@@ -35,13 +35,11 @@ class A(One, Two):
 
 
 print(A.mro())  # A One T Two object
-# python中，可以从两个角度理解如下语句
-# 1. 面向对象角度: 构造A类的实例对象并(显示)调用A.__init__协议方法
-# 2. python的机制角度: (隐式)触发__call__协议方法
+# A调用，触发__call__协议方法，在A.__class__的mro路径中搜索，搜到class type中的__call__方法
+#   1.构造A类的实例对象
+#   2.调用A.__init__方法
 a = A("参数")  # A.__init__方法搜到One的
 print(a.one_sl_attr)  # 参数
 # print(a.two_sl_attr)  # AttributeError: 'A' object has no attribute 'two_sl_attr'
 # print(a.t_sl_attr)  # AttributeError: 'A' object has no attribute 't_sl_attr'
 a.mt("mro")  # T_mro, mt方法搜到T的
-
-
