@@ -20,8 +20,8 @@ print(A.__class__)  # <class 'type'>
 # class type:
 #   def __call__(cls, *args, **kwds):
 #       cls is A
-#       ins = cls.__new__(cls, 'A', *args, **kwds) # 搜索到object中__new__, 构造cls的实例对象
-#       cls.__init__(ins, *args, **kwds) # 搜到A中__init__，调用A.__init__方法
+#       ins = cls.__new__(cls, 'A', *args, **kwds) # A.__new__，搜到object中__new__, 构造cls的实例对象
+#       cls.__init__(ins, *args, **kwds) # A.__init__，搜到A中__init__
 #       return ins
 # A调用，触发__call__协议方法，在A.__class__的mro路径中搜索，搜到class type中的__call__方法
 a = A()
@@ -87,10 +87,10 @@ print(Spam.s)  # s
 
 # class SpamMeta:
 #   def __call__(cls, *args, **kwargs):
-#       cla is Spam
+#       cls is Spam
 #       ins = type.__call__(cls, *args, **kwargs)
-#                  ins = cls.__new__(cls, *args, **kwargs)  # 搜到object中__new__，构造cls的实例对象
-#                  cls.__init__(ins, *args, **kwargs)       # 搜到Spam中__init__，调用Spam.__init__
+#                  ins = cls.__new__(cls, *args, **kwargs)  # Spam.__new__, 搜到object中__new__，构造cls的实例对象
+#                  cls.__init__(ins, *args, **kwargs)       # Spam.__init__，搜到Spam中__init__
 #       return ins
 # 调用Spam，触发__call__协议方法，从Spam.__class__的mro路径中搜索，搜到SpamMeta中的__call__方法
 spam = Spam("param")

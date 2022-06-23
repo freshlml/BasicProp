@@ -36,9 +36,9 @@ class A(One, Two):
 
 print(A.mro())  # A One T Two object
 # A调用，触发__call__协议方法，在A.__class__的mro路径中搜索，搜到class type中的__call__方法
-#   1.构造A类的实例对象
-#   2.调用A.__init__方法
-a = A("参数")  # A.__init__方法搜到One的
+#   1.A.__new__，搜到object中__new__，构造A类的实例对象
+#   2.A.__init__，搜到One中__init__
+a = A("参数")
 print(a.one_sl_attr)  # 参数
 # print(a.two_sl_attr)  # AttributeError: 'A' object has no attribute 'two_sl_attr'
 # print(a.t_sl_attr)  # AttributeError: 'A' object has no attribute 't_sl_attr'
