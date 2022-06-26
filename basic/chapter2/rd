@@ -78,6 +78,12 @@
         b = True
         print(b)        //True
         print(type(b))  //<class 'bool'>
+    数组
+        有序
+        存储模型类似与 java中primitive数组
+        is iterable, but is not Iterator
+        is mutable
+        支持索引操作，分片操作
 
 
 第二: 对象引用
