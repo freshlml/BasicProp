@@ -1,6 +1,7 @@
 
 # 1、相对路径和绝对路径
-# 相对路径: 相对于当前执行的py文件所在的package(top level package)
+# 相对路径: 相对于python命令执行时所在的目录（当前工作目录）,os.getcwd()
+#    D:\pyProjects\BasicProp\basic>python chapter2/chapter2_9.py
 # 绝对路径: linux中，/dir/**/*
 #   win中，C:\dir\**\*
 
