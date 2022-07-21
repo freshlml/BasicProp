@@ -98,11 +98,11 @@ projectDir/my_env/Scripts$                          # 可以看到，退出了�
 
 ##### 5.第三方依赖的管理
 ```
-(my_env) projectDir/my_env/Scripts$ python -m pip install 依赖名称==版本号      # 在my_env环境安装特定版本的依赖
-(my_env) projectDir/my_env/Scripts$ python -m pip install --upgrade 依赖名称   # 更新到最新版
-(my_env) projectDir/my_env/Scripts$ python -m pip uninstall 依赖名称s          # 卸载
-(my_env) projectDir/my_env/Scripts$ python -m pip show 依赖名称                # 查看
-(my_env) projectDir/my_env/Scripts$ python -m pip list                        # 列出已安装的
+(my_env) projectDir/my_env/Scripts$ pip install 依赖名称==版本号      # 在my_env环境安装特定版本的依赖 (python -m pip install ...这条命令会搜索到标准库的pip?是否存在歧义呢?)
+(my_env) projectDir/my_env/Scripts$ pip install --upgrade 依赖名称   # 更新到最新版
+(my_env) projectDir/my_env/Scripts$ pip uninstall 依赖名称s          # 卸载
+(my_env) projectDir/my_env/Scripts$ pip show 依赖名称                # 查看
+(my_env) projectDir/my_env/Scripts$ pip list                        # 列出已安装的
 
 pip install requests时，requests依赖的包也安装了，todo,requests的依赖关系如何维护
 当依赖相互缠绕时，警惕可能出现的依赖版本冲突问题？
@@ -114,11 +114,39 @@ pip install requests时，requests依赖的包也安装了，todo,requests的依
 多个开发环境的协同，开发环境和线上环境的协同
 原理: 每一个开发环境和线上环境都创建本地的venv。1.pyvenv.cfg中name指向相同的python版本；2.通过依赖文件协同第三方依赖
 
-(my_env) projectDir/my_env/Scripts$ python -m pip freeze > ../../requirements.txt       # 将依赖信息写到文件
+(my_env) projectDir/my_env/Scripts$ pip freeze > ../../requirements.txt       # 将依赖信息写到文件
                                                                                         # 将文件提交给git
-(my_env) projectDir/my_env/Scripts$ python -m pip install -r ../../requirements.txt     # 安装文件中的依赖
+(my_env) projectDir/my_env/Scripts$ pip install -r ../../requirements.txt     # 安装文件中的依赖
 
 ```
 
 
+# python解析器
+python解析器
+### python -m命令语法
+```shell script
+# 1.将当前工作目录添加到sys.path
+# 2.在sys.path中搜索
+D:\pyProjects\BasicProp\basic> python -m package_name/module_name
+
+# 搜索package, 运行package下__main__.py
+D:\pyProjects\BasicProp\basic> python -m package_name
+
+# 搜索module, 以__main__运行
+D:\pyProjects\BasicProp\basic> python -m module_name
+
+# 搜索module, 以__main__运行
+D:\pyProjects\BasicProp\basic> python -m package.module
+```
+### python <script>
+```shell script
+# 1.py文件路径可以是绝对路径，或者相对路径，相对于当前工作目录
+# 2.将py文件所在目录的绝对路径添加到sys.path
+D:\pyProjects\BasicProp\basic> python ./chapter5/test.py
+
+# 1.package路径可以是绝对路径，或者相对路径，相对于当前工作目录
+# 2.执行package下__main__.py, 将./basic/chapter5添加到sys.path
+D:\pyProjects\BasicProp> python ./basic/chapter5
+
+```
 
