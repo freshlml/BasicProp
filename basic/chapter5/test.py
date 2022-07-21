@@ -2,7 +2,7 @@ import os
 import sys
 if "D:\\pyProjects\\BasicProp\\venv\\lib\\site-packages" not in sys.path:
     sys.path.append("D:\\pyProjects\\BasicProp\\venv\\lib\\site-packages")
-import requests
+import requests  # requests是一个package, import package,执行package的_init__.py
 
 print(requests)
 print(sys.path)
