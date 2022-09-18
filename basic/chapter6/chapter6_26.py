@@ -82,7 +82,7 @@ print("------------1------------")
 #   1.AMeta的__call__中代码逻辑
 #   2.总会委托给class type的__call__,从而
 #      1).A.__new__,搜到object中__new__，构造A类的实例对象
-#      2).A.__init__,搜到A中__init__
+#      2).A.__init__,搜到A中__init__，A.__init__(A的实例对象)
 a = A()        # a_meta_call, (隐式)触发__call__协议方法，从A.__class__的mro路径 中搜索
 A.__call__(None)  # e_call, A类(显示)调用__call__协议方法，和普通方法搜索规则一致
 print(a.attr)  # e, A类的实例对象上搜索属性, 实例对象 + 实例对象.__class__的mro路径

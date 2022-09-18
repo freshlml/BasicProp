@@ -66,7 +66,6 @@ print(b.__dict__)  # {'cap_name': '任意'}
 # B.name = "覆盖"  # name属性在B的mro路径中存在，而不是B.__class__的mro路径中存在，所以不满足条件，将为B设置name属性
 
 
-# b，b.__class__ or b.__class__的mro?
 # name属性存在并且是Descriptor with __get__方法，调用name.__get__(b, b.__class__) {在b.__class__的mro路径中搜索到name属性}
 print(b.name)  # 任意
 
@@ -75,6 +74,12 @@ print(B.name)  # class B
 
 # name属性存在并且是Descriptor with __get__方法，调用name.__get__(None, C) {在C的mro路径中搜索到name}
 print(C.name)  # class C
+
+
+# 实例对象上的Descriptor属性
+b.name1 = Name()
+# 实例对象上的name1属性是Descriptor with __get__方法，不会调用name1.__get__(None, b) {在b中搜索到name1属性}
+print(b.name1)  # <__main__.Name object at 0x0000020E75E41B70>
 
 print("---2----------------")
 

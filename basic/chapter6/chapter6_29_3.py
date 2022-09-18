@@ -71,7 +71,7 @@ print("-----------2------------------")
 # 触发与搜索规则: 对象.属性(包括方法)时，触发__getattribute__协议方法，被触发的协议方法从对象.__class__的mro路径中搜索
 # 对象.属性(包括方法)先触发__getattribute__协议方法，进入object.__getattribute__开启属性搜索规则(@see chapter6_26)
 #   如果搜索到属性:
-#     当属性是Descriptor with __get__方法: 则调用__get__方法，而不是直接返回搜索到的属性(@see chapter6_29_2)
+#     当属性不是实例对象属性并且属性是Descriptor with __get__方法: 则调用__get__方法，而不是直接返回搜索到的属性(@see chapter6_29_2)
 #     否则: 返回搜索到的属性
 class C(object):
     attr = "attr"
