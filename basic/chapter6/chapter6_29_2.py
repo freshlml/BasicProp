@@ -1,55 +1,33 @@
 
 
-# 属性管理: property特性
-class A(object):
+# Descriptor: 属性查找，属性设置，属性删除时的回调机制
+class AttrDescriptor(object):
 
-    def __init__(self, name):
-        self.cap_name = name
+    def __set_name__(self, owner, name):
+        self.name = name
 
-    def get_name(self):
-        try:
-            return self.cap_name
-        except AttributeError as e:
-            return None
-
-    def set_name(self, v):
-        if v:
-            self.cap_name = v
-
-    def del_name(self):
-        del self.cap_name
-
-    name = property(get_name, set_name, del_name, "cap_name属性")
-
-
-a = A(1)
-a.name = "任意"  # 1.a.name = "任意": 找到A类的name属性；2.翻译成a.set_name("任意")
-print(a.name)  # "任意", 1.a.name: 找到A类的name属性；2.翻译成a.get_name()
-del a.name  # 1.del a.name: 找到A类的name属性；2.翻译成a.set_name()
-print(a.name)  # None
-print("--------------1----------------")
-
-
-# 属性管理: 描述符协议class Descriptor
-class Name(object):
     def __get__(self, instance, owner):
         if instance is not None:
             try:
-                return instance.cap_name
+                # return instance.__name
+                return getattr(instance, "__" + self.name)
             except AttributeError:
                 return None
         return owner
 
     def __set__(self, instance, v):
         if v:
-            instance.cap_name = v
+            # instance.__name = v
+            setattr(instance, "__" + self.name, v)
 
     def __delete__(self, instance):
-        del instance.cap_name
+        # del instance.__name
+        delattr(instance, "__" + self.name)
 
 
 class C(object):
-    name = Name()
+    attr1 = AttrDescriptor()  # 调用__set_name__(attr1, C, "attr1")
+    attr2 = AttrDescriptor()  # 调用__set_name__(attr2, C, "attr2")
 
 
 class B(C):
@@ -59,31 +37,32 @@ class B(C):
 b = B()
 print(b.__dict__)  # {}
 
-# 如果name属性在b.__class__的mro路径中存在并且name属性是Descriptor with __set__方法，则调用name.__set__(b, '任意')，而不是为b设置name属性
-b.name = "任意"
-print(b.__dict__)  # {'cap_name': '任意'}
+# 如果attr1属性在b.__class__的mro路径中存在并且attr1属性是Descriptor with __set__方法，则调用attr1.__set__(b, '任意')，而不是为b设置attr1属性
+b.attr1 = "任意"
+print(b.__dict__)  # {'__attr1': '任意'}
 
-# B.name = "覆盖"  # name属性在B的mro路径中存在，而不是B.__class__的mro路径中存在，所以不满足条件，将为B设置name属性
+# attr1属性在B的mro路径中存在，而不是在B.__class__的mro路径中，所以将为B设置attr1属性而不是调用__set__(...)
+# B.attr1 = "覆盖"
 
 
-# name属性存在并且是Descriptor with __get__方法，调用name.__get__(b, b.__class__) {在b.__class__的mro路径中搜索到name属性}
-print(b.name)  # 任意
+# attr1属性存在，不是实例对象属性，并且是Descriptor with __get__方法，调用attr1.__get__(b, b.__class__)
+print(b.attr1)  # 任意
 
-# name属性存在并且是Descriptor with __get__方法，调用name.__get__(None, B) {在B的mro路径中搜索到name属性}
-print(B.name)  # class B
+# attr1属性存在，不是实例对象属性，并且是Descriptor with __get__方法，调用attr1.__get__(None, B)
+print(B.attr1)  # class B
 
-# name属性存在并且是Descriptor with __get__方法，调用name.__get__(None, C) {在C的mro路径中搜索到name}
-print(C.name)  # class C
-
+# attr1属性存在，不是实例对象属性，并且是Descriptor with __get__方法，调用attr1.__get__(None, C)
+print(C.attr1)  # class C
 
 # 实例对象上的Descriptor属性
-b.name1 = Name()
-# 实例对象上的name1属性是Descriptor with __get__方法，不会调用name1.__get__(None, b) {在b中搜索到name1属性}
-print(b.name1)  # <__main__.Name object at 0x0000020E75E41B70>
+b.ins_attr = AttrDescriptor()
+# 实例对象上的ins_attr属性是Descriptor with __get__方法，不会调用ins_attr.__get__(None, b)
+print(b.ins_attr)  # <__main__.AttrDescriptor object at ...>
 
-print("---2----------------")
+print("--------------1----------------")
 
 
+# property机制类似 Descriptor
 
 
 
