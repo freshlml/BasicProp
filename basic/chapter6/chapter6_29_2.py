@@ -1,6 +1,8 @@
 
 
 # Descriptor: 属性查找，属性设置，属性删除时的回调机制
+# 数据描述器: 定义了__set__() 或 __delete__()
+# 非数据描述器: 仅定义了 __get__()
 class AttrDescriptor(object):
 
     def __set_name__(self, owner, name):
@@ -41,28 +43,22 @@ print(b.__dict__)  # {}
 b.attr1 = "任意"
 print(b.__dict__)  # {'__attr1': '任意'}
 
-# attr1属性在B的mro路径中存在，而不是在B.__class__的mro路径中，所以将为B设置attr1属性而不是调用__set__(...)
+# attr1属性在B的mro路径中存在，而不是在B.__class__的mro路径中，所以将为B设置attr1属性而不是调用attr1.__set__(...)
 # B.attr1 = "覆盖"
 
 
-# attr1属性存在，不是实例对象属性，并且是Descriptor with __get__方法，调用attr1.__get__(b, b.__class__)
+# attr1属性是b.__class__的mro路径中的数据描述器，调用attr1.__get__(b, b.__class__)
 print(b.attr1)  # 任意
 
-# attr1属性存在，不是实例对象属性，并且是Descriptor with __get__方法，调用attr1.__get__(None, B)
+# attr1属性是B的mro路径中的数据描述器，调用attr1.__get__(None, B)
 print(B.attr1)  # class B
 
-# attr1属性存在，不是实例对象属性，并且是Descriptor with __get__方法，调用attr1.__get__(None, C)
+# attr1属性是C的mro路径中的数据描述器，调用attr1.__get__(None, B)
 print(C.attr1)  # class C
-
-# 实例对象上的Descriptor属性
-b.ins_attr = AttrDescriptor()
-# 实例对象上的ins_attr属性是Descriptor with __get__方法，不会调用ins_attr.__get__(None, b)
-print(b.ins_attr)  # <__main__.AttrDescriptor object at ...>
 
 print("--------------1----------------")
 
 
-# property机制类似 Descriptor
 
 
 

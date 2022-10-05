@@ -45,7 +45,7 @@ print("-----------1------------------")
 
 # __setattr__协议方法
 # 触发与搜索规则: 对象.属性(包括方法) = 属性值时，触发__setattr__协议方法，被触发的协议方法从对象.__class__的mro路径中搜索
-# 对象.属性 = 值(包括方法)先触发__setattr__协议方法，一般进入object.__setattr__:
+# 对象.属性 = 值(包括方法)先触发__setattr__协议方法，一般进入object.__setattr__(type.__setattr__):
 #   如果属性在对象.__class__的mro路径中存在并且属性是Descriptor with __set__方法: 则调用__set__方法，而不是为对象设置属性(@see chapter6_29_2)
 #   否则: 为对象设置属性
 class B(object):
@@ -69,10 +69,19 @@ print("-----------2------------------")
 
 # __getattribute__协议方法
 # 触发与搜索规则: 对象.属性(包括方法)时，触发__getattribute__协议方法，被触发的协议方法从对象.__class__的mro路径中搜索
-# 对象.属性(包括方法)先触发__getattribute__协议方法，进入object.__getattribute__开启属性搜索规则(@see chapter6_26)
-#   如果搜索到属性:
-#     当属性不是实例对象属性并且属性是Descriptor with __get__方法: 则调用__get__方法，而不是直接返回搜索到的属性(@see chapter6_29_2)
-#     否则: 返回搜索到的属性
+# 对象.属性(包括方法)先触发__getattribute__协议方法，进入object.__getattribute__(或者type.__getattribute__)开启属性搜索规则(@see chapter6_26)
+#   属性搜索规则补充:
+#   1. 在A类上搜索属性（type.__getattribute__）
+#       0.1). A类mro路径中的数据描述器,__get__ with instance is None 或者 A类的__class__的mro路径中的数据描述器,__get__;
+#       1). A类的mro路径;
+#       1.1). A类mro路径中的非数据描述器,__get__ with instance is None;
+#       1.2). A类的__class__的mro路径中的非数据描述器,__get__;
+#       2). A.__class__的mro路径;
+#   2. A类的实例对象上搜索属性（object.__getattribute__）
+#       0.1). 实例对象.__class__的mro路径中的数据描述器,__get__;
+#       1). 实例对象;
+#       1.1). 实例对象.__class__的mro路径中的非数据描述器,__get__;
+#       2). 实例对象.__class__的mro路径;
 class C(object):
     attr = "attr"
 
