@@ -106,3 +106,10 @@ class property(object):
     ...
 '''
 
+
+# self约定，通过非数据描述器实现
+# @staticmethod，@classmethod 通过 装饰器 + 非数据描述器实现
+
+
+
+
