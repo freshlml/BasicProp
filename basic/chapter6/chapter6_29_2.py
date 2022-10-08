@@ -59,6 +59,50 @@ print(C.attr1)  # class C
 print("--------------1----------------")
 
 
+# property is a 数据描述器
+class PropertyTest(object):
+    def getx(self):
+        return self.__x
+
+    def setx(self, value):
+        self.__x = value
+
+    def delx(self):
+        del self.__x
+
+    x = property(getx, setx, delx, None)
 
 
+p = PropertyTest()
+p.x = "ppp"  # setx(p, "ppp")
+print(p.x)   # getx(p)
+print(p.__dict__)
+print(PropertyTest.x)  # <property object> 类.x，返回x本身
+del p.x      # delx(p)
+print(p.__dict__)
+'''
+class property(object):
+    def __init__(self, fget, fset, fdel, doc):
+        self.fget = fget
+        self.fset = fset
+        self.fdel = fdel
+        if doc is None and fget is not None:
+            doc = fget.__doc__
+        self.__doc__ = doc
+    
+    def __get__(self, obj, objtype):
+        if obj is None:
+            return self
+        assert self.fget is not None
+        return self.fget(obj)
+    
+    def __set__(self, obj, value):
+        assert self.fset is not None
+        self.fset(obj, value)
+        
+    def __delete__(self, obj):
+        assert self.fdel is not None
+        self.fdel(obj)
+    ...
+'''
 
