@@ -1,35 +1,5 @@
 
 
-# 类中方法定义第一个参数self只是一种约定，约定self是当前类(或子类)的实例对象
-class A(object):
-
-    def m(param):  # 第一个参数不写成self
-        return param
-
-
-print(A.m("123"))  # 123
-a = A()
-print(a.m())  # <__main__.A object at 0x000001A62C68FDA0>, a作为第一个参数传给param
-
-
-# 类中方法定义按照约定，第一个参数应该定义成self，并且self约定为当前类(或子类)的实例对象
-# python中有静态方法的概念: 使任何对象调用静态方法时都不会把自身作为第一个参数
-class B(object):
-    attr = 1
-
-    @staticmethod
-    def m(param):
-        B.attr += 1
-        return param
-
-
-print(B.m("参数"))  # 参数
-print(B.attr)  # 2
-b = B()
-print(b.m("参数2"))  # 参数2, 因为静态方法的缘故, b不会将自身作为第一个参数
-print(B.attr)  # 3
-
-
 # 函数式编程: 将函数作为参数传递, 这在python中有天然的优势，因为py中函数(方法)本生就是class Function的实例对象
 #           py中本身就可以传递函数
 #           类中定义的方法: 可以使用类引用，也可使用对象引用(此处借用java中的方法引用的概念，他们的逻辑是一样的)
