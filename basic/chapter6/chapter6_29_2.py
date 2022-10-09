@@ -133,7 +133,27 @@ class MethodType(object):
 '''
 
 
-# @staticmethod，@classmethod 原理
+# @staticmethod 原理
+class Sta(object):
+    @staticmethod
+    def m():
+        pass
+
+
+sta = Sta()
+print(Sta.m)  # function Sta.m at 0x000002A48BA54F28
+print(sta.m)  # function Sta.m at 0x000002A48BA54F28
+print(sta.m is Sta.m)  # True
+'''@staticmethod装饰器, 描述器
+class staticmethod(object):
+    def __init__(self, func):
+        self.func = func
+    
+    def __get__(self, obj, objtype):
+        return self.func
+'''
+
+# @classmethod 原理
 
 
 
