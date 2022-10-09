@@ -107,8 +107,33 @@ class property(object):
 '''
 
 
-# self约定，通过非数据描述器实现
-# @staticmethod，@classmethod 通过 装饰器 + 非数据描述器实现
+# self约定的原理
+class S(object):
+    def m(self):
+        pass
+
+
+s = S()
+print(S.m)  # function S.m
+print(s.m)  # bound method S.m
+print(s.m is S.m)  # False
+'''self约定的python等价实现
+class Function(object):
+    def __get__(self, obj, objtype):
+        if obj is None: return self
+        return MethodType(self, obj)
+        
+class MethodType(object):
+    def __init__(self, func, obj):
+        self.__func__ = func
+        self.__obj__ = obj
+        
+    def __call_(self, *args, **kwargs):
+        return self.__func__(self.__obj__, *args, **kwargs)
+'''
+
+
+# @staticmethod，@classmethod 原理
 
 
 
