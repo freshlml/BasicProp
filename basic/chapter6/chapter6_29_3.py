@@ -72,10 +72,9 @@ print("-----------2------------------")
 # 对象.属性(包括方法)先触发__getattribute__协议方法，进入object.__getattribute__(或者type.__getattribute__)开启属性搜索规则(@see chapter6_26)
 #   属性搜索规则补充:
 #   1. 在A类上搜索属性（type.__getattribute__）
-#       0.1). A类mro路径中的数据描述器,__get__ with instance is None 或者 A类的__class__的mro路径中的数据描述器,__get__;
-#       1). A类的mro路径;
-#       1.1). A类mro路径中的非数据描述器,__get__ with instance is None;
-#       1.2). A类的__class__的mro路径中的非数据描述器,__get__;
+#       0.1). A类的__class__的mro路径中的数据描述器,__get__;
+#       1). A类的mro路径，如果是描述器(无论数据描述器还是非数据描述器),__get__ with instance is None, 否则直接返回属性;
+#       1.1). A类的__class__的mro路径中的非数据描述器,__get__;
 #       2). A.__class__的mro路径;
 #   2. A类的实例对象上搜索属性（object.__getattribute__）
 #       0.1). 实例对象.__class__的mro路径中的数据描述器,__get__;
