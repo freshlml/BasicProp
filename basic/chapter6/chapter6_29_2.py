@@ -59,6 +59,34 @@ print(C.attr1)  # class C
 print("--------------1----------------")
 
 
+# 链式属性描述器
+class GetterSetter(object):
+    def __get__(self, obj, objtype):
+        if obj is None:
+            return obj.__gs
+        return "Tag"
+
+    def __set__(self, instance, v):
+        instance.__gs = v
+
+
+class Meta(type):
+    gs = GetterSetter()
+
+
+class Cls(object, metaclass=Meta):
+    # 没有进入object.__setattr__，所以不会引发Descriptor机制，而是直接为Cls设置属性gs
+    # 可通过Cls.属性的形式引发
+    gs = "1"
+
+
+print(Meta.__dict__)  # 'gs': __main__.GetterSetter object
+print(Cls.__dict__)  # gs': '1'
+print(Cls.gs)  # Tag
+
+print("--------------2----------------")
+
+
 # property is a 数据描述器
 class PropertyTest(object):
     def getx(self):
@@ -106,6 +134,8 @@ class property(object):
     ...
 '''
 
+print("--------------property原理----------------")
+
 
 # self约定的原理
 class S(object):
@@ -132,6 +162,8 @@ class MethodType(object):
         return self.__func__(self.__obj__, *args, **kwargs)
 '''
 
+print("--------------self约定原理----------------")
+
 
 # @staticmethod 原理
 class Sta(object):
@@ -153,8 +185,8 @@ class staticmethod(object):
         return self.func
 '''
 
+print("--------------@staticmethod原理----------------")
+
+
 # @classmethod 原理
-
-
-
 
