@@ -50,10 +50,10 @@ print(b.__dict__)  # {'__attr1': '任意'}
 # attr1属性是b.__class__的mro路径中的数据描述器，调用attr1.__get__(b, b.__class__)
 print(b.attr1)  # 任意
 
-# attr1属性是B的mro路径中的数据描述器，调用attr1.__get__(None, B)
+# attr1属性是B的mro路径中的属性，并且是描述器，调用attr1.__get__(None, B) with instance is None
 print(B.attr1)  # class B
 
-# attr1属性是C的mro路径中的数据描述器，调用attr1.__get__(None, B)
+# attr1属性是C的mro路径中的属性，并且使描述器，调用attr1.__get__(None, B) with instance is None
 print(C.attr1)  # class C
 
 print("--------------1----------------")
@@ -189,4 +189,36 @@ print("--------------@staticmethod原理----------------")
 
 
 # @classmethod 原理
+class Clsm(object):
+    @classmethod
+    def m(cls, *args):
+        pass
+
+
+clsm = Clsm()
+print(Clsm.m)  # bound method Clsm.m
+print(clsm.m)  # bound method Clsm.m
+print(Clsm.m is clsm.m)  # False
+'''@classmethod装饰器，描述器
+class classmethod(object):
+    def __init__(self, func):
+        self.func = func
+        
+    def __get__(self, obj, objtype):
+        if objtype is None:
+            objtype = type(obj)
+        return MethodType(self.func, objtype)
+        
+class MethodType(object):
+    def __init__(self, func, cls):
+        self.func = func
+        self.cls = cls
+        
+    def __call__(self, *args, **kwargs):
+        return self.func(self.cls, *args, **kwargs)
+'''
+
+
+
+
 
