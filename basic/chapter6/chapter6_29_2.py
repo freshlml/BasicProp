@@ -218,6 +218,26 @@ class MethodType(object):
         return self.func(self.cls, *args, **kwargs)
 '''
 
+print("--------------@classmethod原理----------------")
+
+
+# slots初识
+class Sl(object):
+    __slots__ = ('id', 'name')
+
+
+# '__slots__': ('id', 'name'), 'id': <member 'id' of 'Sl' objects>, 'name': <member 'name' of 'Sl' objects>
+print(Sl.__dict__)
+
+sl = Sl()
+sl.id = "id value"
+print(sl.id)  # id value
+print(Sl.id)  # <member 'id' of 'Sl' objects>
+# sl.n_id = "no value"  # AttributeError: 'Sl' object has no attribute 'n_id'
+# print(sl.name)  # AttributeError: name
+# print(sl.n_name)  # AttributeError: 'Sl' object has no attribute 'n_name'
+# print(sl.__dict__)  # AttributeError: 'Sl' object has no attribute '__dict__'
+
 
 
 
