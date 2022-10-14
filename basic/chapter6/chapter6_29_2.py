@@ -147,6 +147,8 @@ s = S()
 print(S.m)  # function S.m
 print(s.m)  # bound method S.m
 print(s.m is S.m)  # False
+print(s.m.__self__ is s)  # True
+print(s.m.__func__ is S.m)  # True
 '''self约定的python等价实现
 class Function(object):
     def __get__(self, obj, objtype):
@@ -156,10 +158,10 @@ class Function(object):
 class MethodType(object):
     def __init__(self, func, obj):
         self.__func__ = func
-        self.__obj__ = obj
+        self.__self__ = obj
         
     def __call_(self, *args, **kwargs):
-        return self.__func__(self.__obj__, *args, **kwargs)
+        return self.__func__(self.__self__, *args, **kwargs)
 '''
 
 print("--------------self约定原理----------------")
