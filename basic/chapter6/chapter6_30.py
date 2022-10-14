@@ -34,28 +34,3 @@ print(l_m.__self__)  # <__main__.C object at 0x0000023CC1850AC8>
 print(l_m.__self__ is lc)  # True
 print(l_m.__func__)  # <function C.m at 0x0000023CC1854BF8>
 
-
-module_pp = "module_pp"
-
-
-# 类中属性有一定的封装性，不在嵌套作用域的属性搜索范围之内
-class D(object):
-    class_pp = "class_pp"
-    class_pp2 = module_pp
-
-    def d1(self):
-        print(module_pp)  # 类中定义的方法和函数有一样的属性搜索原则: 本def,module,builtins；注意:没有class
-        print(class_pp)  # error
-        print(class_pp2)  # error
-
-    def d2(self):
-        d1(self)  # error
-
-    class DD(object):
-        dd_pp = module_pp
-        dd_pp2 = class_pp  # error
-
-
-d = D()
-d.d1()
-d.d2()
