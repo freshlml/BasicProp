@@ -15,9 +15,29 @@ print(dir(ret))
 print(ret.__next__())  # 0
 print(ret.__next__())  # 1
 # print(ret.__next__())  # StopIteration
+print("------------1--------")
 
-# todo,生成器方法,send,throw,close...
 
+def generate2(n: int = 5):
+    i = 0
+    while i < n:
+        v = yield i
+        if v is not None:
+            i = v
+        else:
+            i = i + 1
+
+
+ge = generate2(10)
+# print(ge.send(5))  # TypeError: can't send non-None value to a just-started generator
+print(next(ge))  # 0
+# 调用send方法，从挂起位置唤醒并且将值传递过去
+print(ge.send(5))  # 5
+
+ge.close()
+# ge.__next__()  # StopIteration
+
+print("------------2--------")
 
 # 生成器表达式: class generator = (expression for x in iterable if predicate)
 lst = [1, 2, 3]

@@ -1,36 +1,67 @@
+from collections.abc import Iterator
+from collections.abc import Iterable
 
 
-# 函数式编程: 将函数作为参数传递, 这在python中有天然的优势，因为py中函数(方法)本生就是class Function的实例对象
-#           py中本身就可以传递函数
-#           类中定义的方法: 可以使用类引用，也可使用对象引用(此处借用java中的方法引用的概念，他们的逻辑是一样的)
+# 函数式编程
+# 第一：函数式作为参数传递: 将函数作为参数传递, 这在python中有天然的优势，因为py中函数(方法)本身就是class Function的实例对象，py本身就可以传递函数(方法)
+# 第二：数据流过一系列函数: python通过迭代器实现
+#   1.流式调用:
+#       list.stream().filter(elem -> elem.isJava()).map(elem -> elem.getId()).reduce(Integer::sum)
+#   2.嵌套式调用:
+#       lst = [1, 2, -1, 4, -2]
+#       one = filter(lambda x: x > 0, lst)
+#       two = map(lambda x: x+1, one)
+#       ret = reduce(lambda x, y: x+y, two)
 class C(object):
 
     def m(self, param):
         pass
 
     @staticmethod
-    def s_m(param):
-        pass
+    def s_m(x, y):
+        return x+y
 
 
-# 类/对象引用静态方法
-c_s_m = C.s_m
-print(c_s_m)  # <function C.s_m at 0x00000277FCF34C80>
-c_s_m("类引用静态方法")  # the same as C.s_m("类引用静态方法")
-llc = C()
-ll_m = llc.s_m
-print(ll_m)  # <function C.s_m at 0x0000021F73E54C80>
-ll_m("对象引用静态方法")  # the same as llc.s_m("类引用静态方法")
-# 类引用
-c_m = C.m
-print(c_m)  # <function C.m at 0x000001CA5D234BF8>
-c_m(C(), "类引用")  # the same as C.m(C(), "类引用")
-# 对象引用
-lc = C()
-l_m = lc.m
-print(l_m)  # <bound method C.m of <__main__.C object at 0x000001CA5D230B00>>
-l_m("对象引用")  # the same as lc.m("对象引用")
-print(l_m.__self__)  # <__main__.C object at 0x0000023CC1850AC8>
-print(l_m.__self__ is lc)  # True
-print(l_m.__func__)  # <function C.m at 0x0000023CC1854BF8>
+# functools module
+from functools import reduce
+lst = [1, 2, -1, 4, -2]
+one = filter(lambda x: x > 0, lst)
+two = map(lambda x: x+1, one)
+ret = reduce(C.s_m, two)
+print(ret)
+
+print("-----------1-----------")
+
+# itertools 和 sys 一样是 built-in module
+import itertools
+city_list = [('Decatur', 'AL'),
+             ('Huntsville', 'AL'),
+             ('Anchorage', 'AK'),
+             ('Selma', 'AL'),
+             ('Nome', 'AK'),
+             ('Flagstaff', 'AZ'),
+             ('Phoenix', 'AZ'),
+             ('Tucson', 'AZ')]
+
+
+dp = itertools.groupby(city_list, lambda el: el[1])
+print(isinstance(dp, Iterator))  # True
+print(isinstance(dp, Iterable))  # True
+print(dp is dp.__iter__())  # True
+
+al = next(dp)
+print(al)
+print(isinstance(al[1], Iterator))  # True
+for e1 in al[1]:
+    print(e1)
+
+
+ak = next(dp)
+print(ak)
+for e2 in ak[1]:
+    print(e2)
+
+
+# operator module
+import operator
 
