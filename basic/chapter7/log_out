@@ -1,0 +1,6 @@
+2022-10-29 22:20:55 DEBUG chapter7_35 23 MainThread: 1111
+11
+2022-10-29 22:20:55 INFO chapter7_35 24 MainThread: 22222 1
+2022-10-29 22:20:55 WARNING chapter7_35 25 MainThread: 33333
+2022-10-29 22:20:55 ERROR chapter7_35 26 MainThread: 44444
+2022-10-29 22:20:55 WARNING chapter7_35 28 MainThread: жпнд?
