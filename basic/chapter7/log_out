@@ -1,6 +1,3 @@
-2022-10-29 22:20:55 DEBUG chapter7_35 23 MainThread: 1111
-11
-2022-10-29 22:20:55 INFO chapter7_35 24 MainThread: 22222 1
-2022-10-29 22:20:55 WARNING chapter7_35 25 MainThread: 33333
-2022-10-29 22:20:55 ERROR chapter7_35 26 MainThread: 44444
-2022-10-29 22:20:55 WARNING chapter7_35 28 MainThread: ÖÐÎÄ?
+2022-11-03 00:10:48 INFO chapter7_36 68 MainThread: 22222 1
+2022-11-03 00:10:48 WARNING chapter7_36 69 MainThread: 33333-ä¸­
+2022-11-03 00:10:48 ERROR chapter7_36 70 MainThread: 44444

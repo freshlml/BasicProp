@@ -22,6 +22,7 @@ logging.basicConfig(filename="log_out", filemode='w', level=logging.DEBUG,
 
 logging.debug("1111\n11")
 logging.info("%s %s", '22222', 1)
+# logging.info("one {0} {1}", 1, 2)  # error: LogRecord#getMessage: "one %d %d" % args; not "one {0} {1}".format(1, 2)
 logging.warning("33333")
 logging.error("44444")
 
