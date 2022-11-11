@@ -28,6 +28,7 @@ print("fileHandler same? ", chapter7_36_2.fileHandler is fileHandler)  # False
 logger.addHandler(fileHandler)
 
 print(logger.handlers)  # size is 4
+print(logging._handlerList)  # 包含logger.handlers
 
 
 
