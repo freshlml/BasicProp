@@ -1,0 +1,34 @@
+[loggers]
+keys=root,simpleExample
+
+[logger_simpleExample]
+level=DEBUG
+handlers=fileHandler
+qualname=simpleExample
+propagate=0
+
+[logger_root]
+level=DEBUG
+handlers=fileHandler
+
+
+
+[formatters]
+keys=simpleFormatter
+
+[formatter_simpleFormatter]
+format={asctime} [{levelname}] "{pathname}" at {lineno} lines, [{threadName}]: {message}
+datefmt=%Y-%m-%d %H:%M:%S
+style={
+
+
+
+[handlers]
+keys=fileHandler
+
+[handler_fileHandler]
+class=FileHandler
+level=DEBUG
+formatter=simpleFormatter
+kwargs={"filename": "log_out_7_37", "mode": "w", "encoding": "utf-8"}
+
