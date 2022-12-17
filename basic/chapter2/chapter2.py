@@ -125,7 +125,7 @@ lst = [1, 2, 3, 4, 5]
 #        0         +5      原      5
 # end:   (-∞, -5); [-5,0); [0,5]; (5,+∞)
 #        0         +5      原      5
-# 转化后,start>=end,在start处insert;start<end,在[start,end)上iterable
+# 转化后,start>=end,在start处insert and shrank;start<end,在[start,end)上iterable后insert
 lst = [1, 2, 3, 4, 5]
 lst[-9:-8] = "9"
 print(lst)  # ['9', 1, 2, 3, 4, 5], [0:0]

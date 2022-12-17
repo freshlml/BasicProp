@@ -1,8 +1,8 @@
 第一: 内置基础核心类型
     数字
-        整数类型 <class 'int'>, python没有限制其大小; 十进制数:123654; 二进制数:0b11011; 八进制数:0o71011; 十六进制数:0xabc1209; 不可变; 可hash(hashable)
-        浮点数<class 'float'>, 8个字节存储:1位符号位，11位指数，52位有效数字，即双精度浮点型; 1.09; 1.09E100; 3.14e-10; 不可变; 可hash(hashable)
-            浮点数的讨论@see project-collects/project-normal
+        整数类型 <class 'int'>, python没有限制其大小; 十进制数字面量:123654; 二进制数字面量:0b11011; 八进制数字面量:0o71011; 十六进制数字面量:0xabc1209; 不可变; 可hash(hashable)
+        浮点数<class 'float'>, 8个字节存储:1位符号位，11位指数，52位有效数字，即双精度浮点型; 字面量: 1.09, 1.09E100, 3.14e-10; 不可变; 可hash(hashable)
+            浮点数的讨论@see project-collects/project-java
         decimal
             Decimal, 存储精确; 计算确定; 指定小数保存位数; 舍入或者截断规则
         fraction
@@ -29,7 +29,7 @@
 
     元组
         元素任意类型; 有序; 不可修改; 是linked还是array??
-        <class 'tuple'>, (1, "2", [1, 2], ("3", 2)), 当遇到()时，创建tuple对象
+        <class 'tuple'>, tuple字面量: (1, "2", [1, 2], ("3", 2))
         tp[index]按索引取值, tp[i:j]按[i, j)分片取值，i默认值0，j默认值len(tp), index/i/j可以取负数, 最后一个数为-1，以此类推
             索引取值，分片取值，@see chapter2.py/# 第二题、索引运算和分片运算
         嵌套
@@ -38,7 +38,7 @@
 
     列表
         元素任意类型; 有序性; 是linked还是array??
-        <class 'list'>, [1, '字符串', ['2', '子列表']], 当遇到[]时，创建list对象
+        <class 'list'>, 列表字面量: [1, '字符串', ['2', '子列表']]
         lst[index]按索引取值, lst[i:j]按[i, j)分片取值，i默认值0，j默认值len(lst), index/i/j可以取负数, 最后一个数为-1，以此类推
             索引取值，索引赋值，分片取值，分片赋值，@see chapter2.py/# 第二题、索引运算和分片运算
         嵌套; 二维数组m = [[1, 2, 3],
@@ -52,20 +52,20 @@
         type(lst) == list or isinstance(type(lst))
 
     字典
-        key类型:hashable type,value任意类型; 无序性
-        <class 'dict'>, {"key1": "value", "key2": ['list']} 当遇到{}and:时，创建dict对象
+        key类型:hashable type,value任意类型; 无序性; non-duplicate key; allow None key and None value
+        <class 'dict'>, 字典字面量: {"key1": "value", "key2": ['list']}
         hash映射表: key的hash运算找桶，hash碰撞时比较key的值，如果key值相等，覆盖(逻辑和HashMap一致)
-        d[key]: 根据key取值,没有key竟然是报错
+        d[key]: 根据key取值,没有key抛异常(与返回None值区别开来)
         d[key]=value: 覆盖或者插入
         嵌套
-        可迭代
+        可迭代(iterable)
         列表解析表达式
 
     集合
-        元素类型:hashable type; 无序性; 可修改
-        <class 'set'>, {1, '2'}  (使用{}定义集合)
+        元素类型:hashable type; 无序性; 可修改; non-duplicate key; allow None key
+        <class 'set'>, 集合字面量: {1, '2'}
         可通过add等方法修改
-        可迭代
+        可迭代(iterable)
 
     None
         l = None
@@ -74,7 +74,7 @@
         print(len(lst))   //2
         即python版null
     布尔
-        boolean常量: True,False
+        boolean字面量: True,False
         b = True
         print(b)        //True
         print(type(b))  //<class 'bool'>
@@ -164,7 +164,7 @@ print(b);  # abc--
 第三: 字符串与编码
 
 @see chapter2-7.py
-and 编码more @see project-collects/project-normal
+and 编码more @see project-collects/project-java
 
 s = "中h𝄞1"
 变量s存引用值  --->  class<'str'>类型对象{
